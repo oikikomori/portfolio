@@ -11,10 +11,18 @@
     "start": "cd server && npm start",
     "install:all": "npm install && cd server && npm install && cd ../client && npm install"
   },
-  "keywords": ["portfolio", "nextjs", "nodejs", "api"],
+  "keywords": [
+    "portfolio",
+    "nextjs",
+    "nodejs",
+    "api"
+  ],
   "author": "승짱",
   "license": "MIT",
   "devDependencies": {
     "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "mongodb": "^6.19.0"
   }
 }

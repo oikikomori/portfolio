@@ -2,15 +2,12 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/portfolio', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    
-    console.log(`✅ MongoDB 연결 성공: ${conn.connection.host}`);
+    const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/portfolio';
+    const connection = await mongoose.connect(uri);
+    console.log(`✅ MongoDB 연결 성공: ${connection.connection.host}`);
   } catch (error) {
     console.error('❌ MongoDB 연결 실패:', error.message);
-    process.exit(1);
+    throw error;
   }
 };
 
