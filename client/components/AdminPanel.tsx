@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FiUsers, FiFileText, FiFolder, FiMessageSquare, FiSettings, FiPlus, FiEdit, FiTrash2, FiEye, FiEyeOff } from 'react-icons/fi'
+import { FiUsers, FiFileText, FiFolder, FiMessageSquare, FiSettings, FiPlus, FiEdit, FiTrash2, FiEye, FiEyeOff, FiX } from 'react-icons/fi'
 
 interface AdminPanelProps {
   isOpen: boolean

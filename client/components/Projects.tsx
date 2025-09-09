@@ -405,7 +405,7 @@ export default function Projects() {
           className="text-center mt-16"
         >
           <a
-            href="https://github.com/yourusername"
+            href="https://github.com/oikikomori/"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-outline inline-flex items-center space-x-2"

@@ -94,7 +94,7 @@ export default function RootLayout({
               "description": "Next.js, React, Node.js, MongoDB를 활용한 웹 개발자",
               "url": "https://portfolio.example.com",
               "sameAs": [
-                "https://github.com/yourusername",
+                "https://github.com/oikikomori",
                 "https://linkedin.com/in/yourusername",
                 "https://twitter.com/yourusername"
               ],

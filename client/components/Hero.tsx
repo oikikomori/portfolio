@@ -7,7 +7,7 @@ export default function Hero() {
   const socialLinks = [
     {
       icon: FiGithub,
-      href: 'https://github.com/yourusername',
+      href: 'https://github.com/oikikomori/',
       label: 'GitHub'
     },
     {

@@ -291,7 +291,7 @@ npm run lint
 프로젝트에 대한 문의사항이 있으시면 언제든 연락주세요:
 
 - 이메일: contact@example.com
-- GitHub: [@yourusername](https://github.com/yourusername)
+- GitHub: [@yourusername](https://github.com/oikikomori)
 
 ## 🔄 업데이트 로그
 

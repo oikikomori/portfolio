@@ -75,7 +75,7 @@ export default function About() {
               </div>
               <div className="bg-gray-50 dark:bg-dark-800 p-4 rounded-lg">
                 <div className="text-sm text-gray-500 dark:text-gray-400">경력</div>
-                <div className="font-semibold">3년</div>
+                <div className="font-semibold">5년</div>
               </div>
               <div className="bg-gray-50 dark:bg-dark-800 p-4 rounded-lg">
                 <div className="text-sm text-gray-500 dark:text-gray-400">직함</div>
