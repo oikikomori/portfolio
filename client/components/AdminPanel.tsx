@@ -177,9 +177,9 @@ export default function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">최근 활동</h3>
         <div className="space-y-3">
           {[
-            { action: '새 사용자 가입', user: '김개발', time: '5분 전' },
-            { action: '프로젝트 업데이트', user: '김개발', time: '1시간 전' },
-            { action: '새 게시글 작성', user: '김개발', time: '2시간 전' },
+            { action: '새 사용자 가입', user: '승짱', time: '5분 전' },
+            { action: '프로젝트 업데이트', user: '승짱', time: '1시간 전' },
+            { action: '새 게시글 작성', user: '승짱', time: '2시간 전' },
             { action: '연락처 메시지 수신', user: '방문자', time: '3시간 전' }
           ].map((activity, index) => (
             <motion.div

@@ -101,9 +101,9 @@ export default function Footer() {
             >
               <h4 className="text-lg font-semibold mb-4">연락처</h4>
               <ul className="space-y-2 text-gray-300">
-                <li>contact@example.com</li>
-                <li>+82 10-1234-5678</li>
-                <li>서울특별시 강남구</li>
+                <li>c8c8c81828@gmail.com</li>
+                <li>+82 050-6679-1577</li>
+                <li>서울특별시 송파구</li>
               </ul>
             </motion.div>
           </div>

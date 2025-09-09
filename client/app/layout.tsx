@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: {
-    default: '승짱 - 포트폴리오 웹사이트',
+    default: '승짱 - 포트폴리오',
     template: '%s | 승짱 포트폴리오'
   },
   description: '프론트엔드 개발자 승짱의 포트폴리오 웹사이트입니다. Next.js, React, TypeScript, Tailwind CSS 등을 활용한 프로젝트들과 개발 경험을 공유합니다.',
@@ -30,15 +30,15 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://portfolio.example.com'),
+  metadataBase: new URL('https://portfolio-pi-eight-svjrkqfkn0.vercel.app/'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     type: 'website',
     locale: 'ko_KR',
-    url: 'https://portfolio.example.com',
-    title: '승짱 - 포트폴리오 웹사이트',
+    url: 'https://portfolio-pi-eight-svjrkqfkn0.vercel.app/',
+    title: '승짱 - 포트폴리오',
     description: '프론트엔드 개발자 승짱의 포트폴리오 웹사이트입니다.',
     siteName: '승짱 포트폴리오',
     images: [
@@ -46,13 +46,13 @@ export const metadata: Metadata = {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: '승짱 포트폴리오 웹사이트',
+        alt: '승짱 포트폴리오',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: '승짱 - 포트폴리오 웹사이트',
+    title: '승짱 - 포트폴리오',
     description: '프론트엔드 개발자 승짱의 포트폴리오 웹사이트입니다.',
     images: ['/og-image.jpg'],
   },
@@ -92,7 +92,7 @@ export default function RootLayout({
               "name": "승짱",
               "jobTitle": "프론트엔드 개발자",
               "description": "Next.js, React, Node.js, MongoDB를 활용한 웹 개발자",
-              "url": "https://portfolio.example.com",
+              "url": "https://portfolio-pi-eight-svjrkqfkn0.vercel.app/",
               "sameAs": [
                 "https://github.com/oikikomori",
                 "https://linkedin.com/in/yourusername",

@@ -18,19 +18,19 @@ export default function Contact() {
     {
       icon: FiMail,
       title: '이메일',
-      value: 'contact@example.com',
-      link: 'mailto:contact@example.com'
+      value: 'c8c8c81828@gmail.com',
+      link: 'mailto:c8c8c81828@gmail.com'
     },
     {
       icon: FiPhone,
       title: '전화번호',
-      value: '+82 10-1234-5678',
-      link: 'tel:+821012345678'
+      value: '+82 050-6679-1577',
+      link: 'tel:+82 050-6679-1577'
     },
     {
       icon: FiMapPin,
       title: '위치',
-      value: '서울특별시 강남구',
+      value: '서울특별시 송파구',
       link: null
     }
   ]
@@ -139,7 +139,7 @@ export default function Contact() {
               </h4>
               <div className="space-y-2 text-gray-600 dark:text-gray-300">
                 <p>평일: 오전 9시 - 오후 6시</p>
-                <p>주말: 오전 10시 - 오후 4시</p>
+                <p>주말: 오후 1시 - 오후 4시</p>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-3">
                   * 긴급한 문의사항은 언제든 연락주세요
                 </p>
@@ -217,7 +217,7 @@ export default function Contact() {
                       onChange={handleInputChange}
                       required
                       className="input-field"
-                      placeholder="홍길동"
+                      placeholder="고길동"
                     />
                   </div>
                   <div>

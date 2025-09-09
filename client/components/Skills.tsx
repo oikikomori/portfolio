@@ -23,12 +23,12 @@ export default function Skills() {
       title: '백엔드',
       color: 'from-green-500 to-emerald-500',
       skills: [
-        { name: 'Node.js', level: 85 },
-        { name: 'Express.js', level: 80 },
-        { name: 'Python', level: 75 },
-        { name: 'Django', level: 70 },
-        { name: 'Java', level: 65 },
-        { name: 'Spring Boot', level: 60 }
+        { name: 'Node.js', level: 55 },
+        { name: 'Express.js', level: 20 },
+        { name: 'Python', level: 15 },
+        { name: 'Django', level: 20 },
+        { name: 'Java', level: 35 },
+        { name: 'Spring Boot', level: 30 }
       ]
     },
     {
@@ -36,11 +36,11 @@ export default function Skills() {
       title: '데이터베이스',
       color: 'from-purple-500 to-pink-500',
       skills: [
-        { name: 'MongoDB', level: 80 },
-        { name: 'PostgreSQL', level: 75 },
-        { name: 'MySQL', level: 70 },
-        { name: 'Redis', level: 65 },
-        { name: 'Firebase', level: 70 }
+        { name: 'MongoDB', level: 30 },
+        { name: 'PostgreSQL', level: 20 },
+        { name: 'MySQL', level: 40 },
+        { name: 'Redis', level: 20 },
+        { name: 'Firebase', level: 20 }
       ]
     },
     {
@@ -48,11 +48,11 @@ export default function Skills() {
       title: 'DevOps & Cloud',
       color: 'from-orange-500 to-red-500',
       skills: [
-        { name: 'Docker', level: 75 },
-        { name: 'AWS', level: 70 },
+        { name: 'Docker', level: 25 },
+        { name: 'AWS', level: 20 },
         { name: 'Git', level: 90 },
-        { name: 'CI/CD', level: 65 },
-        { name: 'Linux', level: 80 }
+        { name: 'CI/CD', level: 25 },
+        { name: 'Linux', level: 20 }
       ]
     },
     {
@@ -60,11 +60,11 @@ export default function Skills() {
       title: '모바일 & 기타',
       color: 'from-indigo-500 to-purple-500',
       skills: [
-        { name: 'React Native', level: 70 },
-        { name: 'Flutter', level: 60 },
-        { name: 'GraphQL', level: 75 },
-        { name: 'REST API', level: 85 },
-        { name: 'WebSocket', level: 70 }
+        { name: 'React Native', level: 30 },
+        { name: 'Flutter', level: 30 },
+        { name: 'GraphQL', level: 35 },
+        { name: 'REST API', level: 35 },
+        { name: 'WebSocket', level: 30 }
       ]
     }
   ]
