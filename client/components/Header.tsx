@@ -73,6 +73,7 @@ export default function Header() {
       <motion.header
         initial={{ y: -100 }}
         animate={{ y: 0 }}
+        style={{boxShadow: '0 1px 20px rgb(63 62 62 / 30%)' }}
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           isScrolled
             ? 'bg-white/90 dark:bg-dark-900/90 backdrop-blur-md shadow-lg'

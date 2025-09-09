@@ -152,6 +152,7 @@ export default function Footer() {
         whileTap={{ scale: 0.9 }}
         transition={{ duration: 0.3 }}
         viewport={{ once: true }}
+        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
         className="fixed bottom-8 right-8 w-12 h-12 bg-primary-600 hover:bg-primary-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 z-40"
         aria-label="상단으로 이동"
       >
