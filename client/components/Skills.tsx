@@ -10,12 +10,12 @@ export default function Skills() {
       title: '프론트엔드',
       color: 'from-blue-500 to-cyan-500',
       skills: [
-        { name: 'React', level: 90 },
-        { name: 'Next.js', level: 85 },
+        { name: 'React', level: 80 },
+        { name: 'Next.js', level: 80 },
         { name: 'TypeScript', level: 80 },
         { name: 'Tailwind CSS', level: 90 },
-        { name: 'JavaScript', level: 95 },
-        { name: 'HTML/CSS', level: 95 }
+        { name: 'JavaScript', level: 99 },
+        { name: 'HTML/CSS', level: 99 }
       ]
     },
     {
@@ -23,12 +23,12 @@ export default function Skills() {
       title: '백엔드',
       color: 'from-green-500 to-emerald-500',
       skills: [
-        { name: 'Node.js', level: 55 },
+        { name: 'Node.js', level: 60 },
         { name: 'Express.js', level: 20 },
         { name: 'Python', level: 15 },
-        { name: 'Django', level: 20 },
-        { name: 'Java', level: 35 },
-        { name: 'Spring Boot', level: 30 }
+        { name: 'Django', level: 10 },
+        { name: 'Java', level: 30 },
+        { name: 'Spring Boot', level: 10 }
       ]
     },
     {
@@ -36,10 +36,10 @@ export default function Skills() {
       title: '데이터베이스',
       color: 'from-purple-500 to-pink-500',
       skills: [
-        { name: 'MongoDB', level: 30 },
-        { name: 'PostgreSQL', level: 20 },
-        { name: 'MySQL', level: 40 },
-        { name: 'Redis', level: 20 },
+        { name: 'MongoDB', level: 40 },
+        { name: 'PostgreSQL', level: 10 },
+        { name: 'MySQL', level: 50 },
+        { name: 'Redis', level: 10 },
         { name: 'Firebase', level: 20 }
       ]
     },
@@ -48,11 +48,11 @@ export default function Skills() {
       title: 'DevOps & Cloud',
       color: 'from-orange-500 to-red-500',
       skills: [
-        { name: 'Docker', level: 25 },
+        { name: 'Docker', level: 20 },
         { name: 'AWS', level: 20 },
         { name: 'Git', level: 90 },
-        { name: 'CI/CD', level: 25 },
-        { name: 'Linux', level: 20 }
+        { name: 'CI/CD', level: 10 },
+        { name: 'Linux', level: 10 }
       ]
     },
     {
@@ -60,10 +60,10 @@ export default function Skills() {
       title: '모바일 & 기타',
       color: 'from-indigo-500 to-purple-500',
       skills: [
-        { name: 'React Native', level: 30 },
-        { name: 'Flutter', level: 30 },
-        { name: 'GraphQL', level: 35 },
-        { name: 'REST API', level: 35 },
+        { name: 'React Native', level: 10 },
+        { name: 'Flutter', level: 10 },
+        { name: 'GraphQL', level: 10 },
+        { name: 'REST API', level: 10 },
         { name: 'WebSocket', level: 30 }
       ]
     }
