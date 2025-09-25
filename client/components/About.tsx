@@ -139,17 +139,17 @@ export default function About() {
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-blue-700 dark:text-blue-300">React</span>
-                  <span className="text-sm font-medium text-blue-800 dark:text-blue-200">95%</span>
+                  <span className="text-sm font-medium text-blue-800 dark:text-blue-200">70%</span>
                 </div>
                 <div className="w-full bg-blue-200 dark:bg-blue-800 rounded-full h-2">
-                  <div className="bg-blue-600 h-2 rounded-full" style={{width: '95%'}}></div>
+                  <div className="bg-blue-600 h-2 rounded-full" style={{width: '70%'}}></div>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-blue-700 dark:text-blue-300">Next.js</span>
-                  <span className="text-sm font-medium text-blue-800 dark:text-blue-200">90%</span>
+                  <span className="text-sm font-medium text-blue-800 dark:text-blue-200">70%</span>
                 </div>
                 <div className="w-full bg-blue-200 dark:bg-blue-800 rounded-full h-2">
-                  <div className="bg-blue-600 h-2 rounded-full" style={{width: '90%'}}></div>
+                  <div className="bg-blue-600 h-2 rounded-full" style={{width: '70%'}}></div>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-blue-700 dark:text-blue-300">TypeScript</span>
@@ -167,17 +167,17 @@ export default function About() {
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-purple-700 dark:text-purple-300">Tailwind CSS</span>
-                  <span className="text-sm font-medium text-purple-800 dark:text-purple-200">95%</span>
-                </div>
-                <div className="w-full bg-purple-200 dark:bg-purple-800 rounded-full h-2">
-                  <div className="bg-purple-600 h-2 rounded-full" style={{width: '95%'}}></div>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-purple-700 dark:text-purple-300">CSS3</span>
                   <span className="text-sm font-medium text-purple-800 dark:text-purple-200">90%</span>
                 </div>
                 <div className="w-full bg-purple-200 dark:bg-purple-800 rounded-full h-2">
                   <div className="bg-purple-600 h-2 rounded-full" style={{width: '90%'}}></div>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-purple-700 dark:text-purple-300">CSS3</span>
+                  <span className="text-sm font-medium text-purple-800 dark:text-purple-200">99%</span>
+                </div>
+                <div className="w-full bg-purple-200 dark:bg-purple-800 rounded-full h-2">
+                  <div className="bg-purple-600 h-2 rounded-full" style={{width: '99%'}}></div>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-purple-700 dark:text-purple-300">SCSS</span>
@@ -194,25 +194,25 @@ export default function About() {
               <h4 className="font-semibold text-green-800 dark:text-green-200 mb-4">상태 관리</h4>
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-green-700 dark:text-green-300">Redux</span>
+                  <span className="text-sm text-green-700 dark:text-green-300">Redmine</span>
                   <span className="text-sm font-medium text-green-800 dark:text-green-200">85%</span>
                 </div>
                 <div className="w-full bg-green-200 dark:bg-green-800 rounded-full h-2">
                   <div className="bg-green-600 h-2 rounded-full" style={{width: '85%'}}></div>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-green-700 dark:text-green-300">Zustand</span>
+                  <span className="text-sm text-green-700 dark:text-green-300">Confluence</span>
                   <span className="text-sm font-medium text-green-800 dark:text-green-200">80%</span>
                 </div>
                 <div className="w-full bg-green-200 dark:bg-green-800 rounded-full h-2">
                   <div className="bg-green-600 h-2 rounded-full" style={{width: '80%'}}></div>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-green-700 dark:text-green-300">Context API</span>
-                  <span className="text-sm font-medium text-green-800 dark:text-green-200">90%</span>
+                  <span className="text-sm text-green-700 dark:text-green-300">Jira</span>
+                  <span className="text-sm font-medium text-green-800 dark:text-green-200">80%</span>
                 </div>
                 <div className="w-full bg-green-200 dark:bg-green-800 rounded-full h-2">
-                  <div className="bg-green-600 h-2 rounded-full" style={{width: '90%'}}></div>
+                  <div className="bg-green-600 h-2 rounded-full" style={{width: '80%'}}></div>
                 </div>
               </div>
             </div>
