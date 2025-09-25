@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { FiGithub, FiExternalLink, FiTag, FiCalendar, FiFolder } from 'react-icons/fi'
+import { FiGithub, FiExternalLink, FiTag, FiCalendar, FiFolder, FiUser, FiCode } from 'react-icons/fi'
 import SearchBar from './SearchBar'
 
 interface Project {
@@ -19,6 +19,8 @@ interface Project {
   startDate: string
   endDate: string
   status: string
+  participants?: string
+  role?: string
 }
 
 export default function Projects() {
@@ -31,110 +33,211 @@ export default function Projects() {
 
   const categories = [
     { id: 'all', name: '전체' },
-    { id: 'web', name: '웹' },
+    { id: 'web', name: '웹/마켓/스토어' },
     { id: 'mobile', name: '모바일' },
     { id: 'desktop', name: '데스크톱' },
     { id: 'other', name: '기타' }
   ]
 
-  // 샘플 프로젝트 데이터
+  // 실제 프로젝트 데이터 (이력서 기반)
   const sampleProjects: Project[] = [
     {
       id: '1',
-      title: '포트폴리오 웹사이트',
-      description: 'Next.js와 Tailwind CSS를 활용한 반응형 포트폴리오 웹사이트',
-      content: '개인 포트폴리오를 위한 현대적이고 아름다운 웹사이트입니다. Next.js의 App Router와 Tailwind CSS를 활용하여 구축했으며, 다크모드 지원과 반응형 디자인을 적용했습니다.',
-      technologies: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
+      title: 'BABA OPTION',
+      description: 'eztross/ Binary Option 관련 브랜드 사이트',
+      content: 'Binary Option과 관련된 브랜드 사이트로, Next.js와 Node.js를 활용하여 구축했습니다. 반응형 디자인과 현대적인 UI/UX를 적용하여 사용자 경험을 향상시켰습니다.',
+      technologies: ['Next.js', 'Node.js', 'HTML5', 'CSS 3', 'SCSS'],
       images: ['/api/placeholder/600/400'],
-      githubUrl: 'https://github.com/example/portfolio',
-      liveUrl: 'https://portfolio.example.com',
+      githubUrl: '',
+      liveUrl: 'https://www.babaoption.com/en/main',
       featured: true,
       category: 'web',
-      startDate: '2024-01-01',
-      endDate: '2024-03-01',
-      status: 'completed'
+      startDate: '2025-01-01',
+      endDate: '2025-03-01',
+      status: 'completed',
+      participants: '개인 프로젝트',
+      role: '전체 개발 담당'
     },
     {
       id: '2',
-      title: 'E-커머스 플랫폼',
-      description: '풀스택 E-커머스 웹 애플리케이션',
-      content: '사용자 인증, 상품 관리, 결제 시스템을 포함한 완전한 E-커머스 플랫폼입니다. React 프론트엔드와 Node.js 백엔드, MongoDB 데이터베이스를 활용했습니다.',
-      technologies: ['React', 'Node.js', 'Express', 'MongoDB', 'Stripe', 'JWT'],
+      title: 'CRM (입출금 관리 시스템)',
+      description: 'babaoption/ eztross/ Binary Option 관련 CRM 사이트',
+      content: 'Binary Option 플랫폼에 필요한 CRM 사이트로 입출금 관련 업무를 관리합니다. Svelte와 Web Components를 활용하여 모던한 관리자 인터페이스를 구현했습니다.',
+      technologies: ['HTML5', 'Svelte', 'Web Components', 'JavaScript', 'Go'],
       images: ['/api/placeholder/600/400'],
-      githubUrl: 'https://github.com/example/ecommerce',
-      liveUrl: 'https://ecommerce.example.com',
+      githubUrl: '',
+      liveUrl: 'https://www.babaoption.com/userpage/login',
       featured: true,
       category: 'web',
-      startDate: '2023-06-01',
-      endDate: '2023-12-01',
-      status: 'completed'
+      startDate: '2023-03-01',
+      endDate: '2024-12-31',
+      status: 'in-progress',
+      participants: '개인 프로젝트',
+      role: '전체 개발 담당'
     },
     {
       id: '3',
-      title: '모바일 할일 앱',
-      description: 'React Native로 개발한 크로스 플랫폼 할일 관리 앱',
-      content: 'iOS와 Android 모두에서 동작하는 할일 관리 애플리케이션입니다. 로컬 저장소와 클라우드 동기화를 지원하며, 직관적인 사용자 인터페이스를 제공합니다.',
-      technologies: ['React Native', 'TypeScript', 'AsyncStorage', 'Firebase'],
+      title: 'babaoption/ eztross/ Binary Option',
+      description: '코인 또는 통화로 게임을 할 수 있는 WTS',
+      content: 'Binary Option을 통해 코인 또는 통화로 게임을 할 수 있는 웹 트레이딩 시스템입니다. PixiJS를 활용한 인터랙티브한 게임 요소와 Svelte를 통한 상태 관리를 구현했습니다.',
+      technologies: ['HTML5', 'PixiJS', 'JavaScript', 'Svelte'],
       images: ['/api/placeholder/600/400'],
-      githubUrl: 'https://github.com/example/todo-app',
-      liveUrl: null,
-      featured: false,
-      category: 'mobile',
-      startDate: '2023-09-01',
-      endDate: '2023-11-01',
-      status: 'completed'
+      githubUrl: '',
+      liveUrl: '',
+      featured: true,
+      category: 'web',
+      startDate: '2021-05-01',
+      endDate: '2024-12-31',
+      status: 'completed',
+      participants: '개인 프로젝트',
+      role: '전체 개발 담당'
     },
     {
       id: '4',
-      title: '실시간 채팅 앱',
-      description: 'WebSocket을 활용한 실시간 채팅 애플리케이션',
-      content: '실시간 메시지 전송과 수신이 가능한 채팅 애플리케이션입니다. WebSocket을 사용하여 실시간 통신을 구현했으며, 사용자 인증과 채팅방 관리 기능을 포함합니다.',
-      technologies: ['React', 'Node.js', 'Socket.io', 'MongoDB', 'JWT'],
+      title: '랄라 (Lalla)',
+      description: 'AI 기반 유아 성장 도움 앱',
+      content: 'AI를 활용하여 유치원이나 부모가 유아를 더 편리하고 효과적으로 양육할 수 있도록 도와주는 웹앱입니다. React를 기반으로 한 반응형 UI와 사용자 친화적인 인터페이스를 구현했습니다.',
+      technologies: ['HTML5', 'CSS 3', 'React', 'JavaScript'],
       images: ['/api/placeholder/600/400'],
-      githubUrl: 'https://github.com/example/chat-app',
-      liveUrl: 'https://chat.example.com',
+      githubUrl: '',
+      liveUrl: 'https://play.google.com/store/apps/details?id=com.lullaapp.and',
       featured: false,
-      category: 'web',
-      startDate: '2023-03-01',
-      endDate: '2023-05-01',
-      status: 'completed'
+      category: 'mobile',
+      startDate: '2022-03-01',
+      endDate: '2022-06-01',
+      status: 'completed',
+      participants: '개인 프로젝트',
+      role: '전체 개발 담당'
     },
     {
       id: '5',
-      title: '데스크톱 파일 관리자',
-      description: 'Electron 기반의 현대적인 파일 관리 애플리케이션',
-      content: '크로스 플랫폼 데스크톱 파일 관리자입니다. Electron과 React를 사용하여 구축했으며, 파일 탐색, 검색, 정렬 등의 기능을 제공합니다.',
-      technologies: ['Electron', 'React', 'TypeScript', 'Node.js'],
+      title: 'mytradinginfo/ admin',
+      description: '코인 관련 정보 사이트 및 관리자 페이지',
+      content: '코인 관련 정보를 제공하는 사이트로, 회사 프로젝트와 관련된 광고 및 고객 모집을 위해 제작되었습니다. 반응형 디자인과 관리자 화면을 개발했습니다.',
+      technologies: ['HTML5', 'JavaScript', 'React', 'CSS 3'],
       images: ['/api/placeholder/600/400'],
-      githubUrl: 'https://github.com/example/file-manager',
-      liveUrl: null,
+      githubUrl: '',
+      liveUrl: 'https://www.mytradinginfo.com/',
       featured: false,
-      category: 'desktop',
-      startDate: '2023-01-01',
-      endDate: '2023-04-01',
-      status: 'completed'
+      category: 'web',
+      startDate: '2020-11-01',
+      endDate: '2021-03-01',
+      status: 'completed',
+      participants: '개인 프로젝트',
+      role: '전체 개발 담당'
     },
     {
       id: '6',
-      title: 'AI 이미지 분석 도구',
-      description: '머신러닝을 활용한 이미지 분석 및 분류 도구',
-      content: 'TensorFlow.js를 사용하여 브라우저에서 실행되는 이미지 분석 도구입니다. 이미지 분류, 객체 감지, 얼굴 인식 등의 기능을 제공합니다.',
-      technologies: ['TensorFlow.js', 'React', 'Canvas API', 'WebGL'],
+      title: 'mysoftwiz / admin',
+      description: '회사 소개 사이트 및 관리자 페이지',
+      content: '회사 소개 사이트로 이력서와 문의를 받을 수 있으며, 이를 관리하기 위한 관리자 페이지 작업을 진행했습니다. EJS 템플릿 엔진을 활용한 서버사이드 렌더링을 구현했습니다.',
+      technologies: ['HTML5', 'JavaScript', 'EJS'],
       images: ['/api/placeholder/600/400'],
-      githubUrl: 'https://github.com/example/ai-image-tool',
-      liveUrl: 'https://ai-image.example.com',
-      featured: true,
-      category: 'other',
-      startDate: '2023-07-01',
-      endDate: '2023-10-01',
-      status: 'completed'
+      githubUrl: '',
+      liveUrl: 'https://www.mysoftwiz.com/',
+      featured: false,
+      category: 'web',
+      startDate: '2021-03-01',
+      endDate: '2021-04-01',
+      status: 'completed',
+      participants: '개인 프로젝트',
+      role: '전체 개발 담당'
+    },
+    {
+      id: '7',
+      title: 'babaglobal',
+      description: 'baba 브랜드 관련 회사 소개 홈페이지',
+      content: 'baba 브랜드와 관련된 회사 소개 홈페이지를 사내 프로젝트로 개발했습니다. Semantic UI를 활용한 반응형 페이지 퍼블리싱과 프론트엔드 작업을 담당했습니다.',
+      technologies: ['HTML5', 'JavaScript', 'CSS 3', 'Semantic UI'],
+      images: ['/api/placeholder/600/400'],
+      githubUrl: '',
+      liveUrl: '',
+      featured: false,
+      category: 'web',
+      startDate: '2020-05-01',
+      endDate: '2020-07-01',
+      status: 'completed',
+      participants: '개인 프로젝트',
+      role: '퍼블리싱 및 프론트엔드 개발'
+    },
+    {
+      id: '8',
+      title: '쇼어테크 (Shoretech)',
+      description: '수영장 소개 사이트',
+      content: '외주를 받아 퍼블리싱 작업만 진행한 수영장 소개 사이트입니다. 깔끔하고 직관적인 디자인으로 수영장의 시설과 서비스를 효과적으로 소개했습니다.',
+      technologies: ['HTML5', 'CSS 3', 'JavaScript'],
+      images: ['/api/placeholder/600/400'],
+      githubUrl: '',
+      liveUrl: '',
+      featured: false,
+      category: 'web',
+      startDate: '2020-02-01',
+      endDate: '2020-02-28',
+      status: 'completed',
+      participants: '외주 프로젝트',
+      role: '퍼블리싱 작업 담당'
+    },
+    {
+      id: '9',
+      title: '대진대학교 가족회사',
+      description: '대진대학교 가족회사 사이트',
+      content: '대진대학교 가족회사를 외주로 받아 퍼블리싱 작업을 진행했습니다. 다른 대학들과 마찬가지로 담당 대학에 대한 가족회사 사이트를 제작했습니다.',
+      technologies: ['HTML5', 'CSS 3', 'jQuery'],
+      images: ['/api/placeholder/600/400'],
+      githubUrl: '',
+      liveUrl: '',
+      featured: false,
+      category: 'web',
+      startDate: '2020-01-01',
+      endDate: '2020-01-31',
+      status: 'completed',
+      participants: '외주 프로젝트',
+      role: '퍼블리싱 작업 담당'
+    },
+    {
+      id: '10',
+      title: '스터디피티 (Study PT)',
+      description: '공부 개인 맞춤형 훈련 프로젝트',
+      content: '공부 개인 맞춤형 훈련 프로젝트로 외주를 받아 작업하였으며, 두 명이 작업을 진행했습니다. 전 퍼블리싱 작업을 담당하여 학생들에게 공부에 대한 편의를 제공하고자 했던 프로젝트입니다.',
+      technologies: ['HTML5', 'CSS 3', 'jQuery'],
+      images: ['/api/placeholder/600/400'],
+      githubUrl: '',
+      liveUrl: '',
+      featured: false,
+      category: 'web',
+      startDate: '2019-07-01',
+      endDate: '2019-08-01',
+      status: 'completed',
+      participants: '2명 (외주)',
+      role: '전 퍼블리싱 작업 담당'
+    },
+    {
+      id: '11',
+      title: 'kmuseum',
+      description: '전국 박물관 예약 시스템',
+      content: 'kmuseum 프로젝트에 총 두 명이 참여하였고, 전 퍼블리싱을 담당했습니다. 전국 모든 박물관에 공연, 전시, 이벤트 등 예약을 할 수 있는 사이트로 고객들에게 편의를 제공하기 위해 작업했던 프로젝트입니다.',
+      technologies: ['HTML5', 'CSS 3', 'PHP'],
+      images: ['/api/placeholder/600/400'],
+      githubUrl: '',
+      liveUrl: '',
+      featured: false,
+      category: 'web',
+      startDate: '2019-04-01',
+      endDate: '2019-06-01',
+      status: 'completed',
+      participants: '2명',
+      role: '전 퍼블리싱 담당'
     }
   ]
 
   useEffect(() => {
     // API에서 프로젝트 데이터 가져오기 (현재는 샘플 데이터 사용)
-    setProjects(sampleProjects)
-    setFilteredProjects(sampleProjects)
+    // 최신 프로젝트부터 표시하도록 정렬
+    const sortedProjects = [...sampleProjects].sort((a, b) => 
+      new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
+    )
+    setProjects(sortedProjects)
+    setFilteredProjects(sortedProjects)
     setIsLoading(false)
   }, [])
 
@@ -225,8 +328,8 @@ export default function Projects() {
             <span className="text-gradient">프로젝트</span>를 소개합니다
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            다양한 기술을 활용하여 개발한 프로젝트들을 소개합니다.
-            각 프로젝트는 사용자 경험과 코드 품질을 중시하여 개발되었습니다.
+            프론트엔드 개발자로 화면 구성과 화면에 필요한 데이터 작업을 진행했습니다.
+            HTML5, CSS3, JavaScript부터 Svelte, React까지 다양한 기술을 활용한 프로젝트들을 소개합니다.
           </p>
         </motion.div>
 
@@ -323,6 +426,24 @@ export default function Projects() {
                       {formatDate(project.startDate)} - {formatDate(project.endDate)}
                     </span>
                   </div>
+
+                  {/* 참여 인원 및 역할 */}
+                  {(project.participants || project.role) && (
+                    <div className="mb-3 space-y-1">
+                      {project.participants && (
+                        <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                          <FiUser size={14} />
+                          <span>{project.participants}</span>
+                        </div>
+                      )}
+                      {project.role && (
+                        <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                          <FiCode size={14} />
+                          <span>{project.role}</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                   <h3 className="text-xl font-bold mb-3 text-gray-800 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200">
                     {project.title}

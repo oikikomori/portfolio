@@ -7,23 +7,23 @@ export default function About() {
   const features = [
     {
       icon: FiUser,
-      title: '사용자 중심',
-      description: '사용자의 니즈를 최우선으로 생각하며 직관적인 인터페이스를 설계합니다.'
+      title: '퍼블리싱 전문가',
+      description: 'HTML/CSS, JavaScript, jQuery, Bootstrap 등 다양한 UI 컴포넌트 구현에 익숙합니다.'
     },
     {
       icon: FiCode,
-      title: '깔끔한 코드',
-      description: '가독성과 유지보수성을 고려한 깔끔하고 효율적인 코드를 작성합니다.'
+      title: '모던 프론트엔드',
+      description: 'Svelte, React, Web Components를 활용한 반응형 UI 및 상태 기반 인터랙션 구현에 능숙합니다.'
     },
     {
       icon: FiHeart,
-      title: '열정적인 개발',
-      description: '새로운 기술을 배우고 적용하는 것에 대한 끊임없는 열정을 가지고 있습니다.'
+      title: '6년 8개월 경험',
+      description: '웹퍼블리셔와 프론트엔드 개발자로서 다양한 프로젝트를 성공적으로 완료했습니다.'
     },
     {
       icon: FiTarget,
-      title: '목표 지향적',
-      description: '명확한 목표를 설정하고 체계적으로 프로젝트를 진행합니다.'
+      title: '사용자 중심 설계',
+      description: '사용자 경험을 최우선으로 생각하며 깔끔하고 직관적인 인터페이스를 구현합니다.'
     }
   ]
 
@@ -41,8 +41,8 @@ export default function About() {
             <span className="text-gradient">저에 대해</span> 알아보세요
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            프론트엔드 개발자로서 사용자 인터페이스와 경험에 특화된 개발을 하고 있습니다.
-            React, Next.js 등 최신 프론트엔드 기술을 활용하여 반응형이고 직관적인 웹 애플리케이션을 만듭니다.
+            프론트엔드 개발자로 화면 구성과 화면에 필요한 데이터 작업을 진행합니다.
+            HTML5, CSS3, JavaScript부터 Svelte, React까지 다양한 기술을 활용한 프로젝트 경험을 보유하고 있습니다.
           </p>
         </motion.div>
 
@@ -55,35 +55,36 @@ export default function About() {
             viewport={{ once: true }}
           >
             <h3 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">
-              안녕하세요, 저는 <span className="text-gradient">승짱</span>입니다
+              안녕하세요, 저는 <span className="text-gradient">오승일</span>입니다
             </h3>
             <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-              3년간의 프론트엔드 개발 경험을 바탕으로 사용자 중심의 웹 애플리케이션을 개발하고 있습니다. 
-              React, Next.js, TypeScript, Tailwind CSS 등 최신 프론트엔드 기술을 활용하여 프로젝트를 진행하며, 
-              지속적인 학습과 개선을 통해 더 나은 프론트엔드 개발자가 되기 위해 노력하고 있습니다.
+              퍼블리싱은 누구보다 자신 있습니다. HTML/CSS는 물론, JavaScript와 Web Component, 
+              jQuery, Bootstrap 등 다양한 UI 컴포넌트 구현에 익숙합니다. 최근에는 Svelte와 React도 
+              활용하며, 반응형 UI 및 상태 기반 인터랙션 구현에도 능숙합니다.
             </p>
             <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-              팀워크를 중시하며, 다른 개발자들과의 협업을 통해 더 나은 결과물을 만들어내는 것을 좋아합니다. 
-              새로운 도전을 두려워하지 않고, 문제 해결을 위한 창의적인 접근 방식을 추구합니다.
+              6년 8개월의 개발 경험을 바탕으로 웹퍼블리셔와 프론트엔드 개발자로서 다양한 프로젝트를 
+              성공적으로 완료했습니다. 사용자 경험을 최우선으로 생각하며, 깔끔하고 직관적인 인터페이스를 
+              구현하는 것을 목표로 합니다.
             </p>
             
             {/* 개인 정보 */}
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-gray-50 dark:bg-dark-800 p-4 rounded-lg">
                 <div className="text-sm text-gray-500 dark:text-gray-400">이름</div>
-                <div className="font-semibold">승짱</div>
+                <div className="font-semibold">오승일</div>
               </div>
               <div className="bg-gray-50 dark:bg-dark-800 p-4 rounded-lg">
                 <div className="text-sm text-gray-500 dark:text-gray-400">경력</div>
-                <div className="font-semibold">5년</div>
+                <div className="font-semibold">6년 8개월</div>
               </div>
               <div className="bg-gray-50 dark:bg-dark-800 p-4 rounded-lg">
                 <div className="text-sm text-gray-500 dark:text-gray-400">직함</div>
-                <div className="font-semibold">프론트엔드 개발자</div>
+                <div className="font-semibold">웹퍼블리셔/프론트엔드 개발자</div>
               </div>
               <div className="bg-gray-50 dark:bg-dark-800 p-4 rounded-lg">
-                <div className="text-sm text-gray-500 dark:text-gray-400">지역</div>
-                <div className="font-semibold">서울</div>
+                <div className="text-sm text-gray-500 dark:text-gray-400">생년</div>
+                <div className="font-semibold">1990년생</div>
               </div>
             </div>
           </motion.div>

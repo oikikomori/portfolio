@@ -10,25 +10,27 @@ export default function Skills() {
       title: '프론트엔드',
       color: 'from-blue-500 to-cyan-500',
       skills: [
+        { name: 'HTML5', level: 95 },
+        { name: 'CSS3', level: 95 },
+        { name: 'JavaScript', level: 90 },
         { name: 'React', level: 80 },
-        { name: 'Next.js', level: 80 },
-        { name: 'TypeScript', level: 80 },
-        { name: 'Tailwind CSS', level: 90 },
-        { name: 'JavaScript', level: 99 },
-        { name: 'HTML/CSS', level: 99 }
+        { name: 'Svelte', level: 85 },
+        { name: 'jQuery', level: 90 },
+        { name: 'Bootstrap', level: 85 },
+        { name: 'Web Components', level: 75 }
       ]
     },
     {
       icon: FiServer,
-      title: '백엔드',
+      title: '백엔드 & 기타',
       color: 'from-green-500 to-emerald-500',
       skills: [
-        { name: 'Node.js', level: 60 },
-        { name: 'Express.js', level: 20 },
-        { name: 'Python', level: 15 },
-        { name: 'Django', level: 10 },
-        { name: 'Java', level: 30 },
-        { name: 'Spring Boot', level: 10 }
+        { name: 'Node.js', level: 70 },
+        { name: 'PHP', level: 60 },
+        { name: 'Go', level: 50 },
+        { name: 'EJS', level: 70 },
+        { name: 'PixiJS', level: 60 },
+        { name: 'Semantic UI', level: 80 }
       ]
     },
     {
@@ -36,35 +38,34 @@ export default function Skills() {
       title: '데이터베이스',
       color: 'from-purple-500 to-pink-500',
       skills: [
+        { name: 'MySQL', level: 80 },
         { name: 'MongoDB', level: 40 },
-        { name: 'PostgreSQL', level: 10 },
-        { name: 'MySQL', level: 50 },
-        { name: 'Redis', level: 10 },
-        { name: 'Firebase', level: 20 }
+        { name: 'PostgreSQL', level: 30 }
       ]
     },
     {
       icon: FiCloud,
-      title: 'DevOps & Cloud',
+      title: '개발 도구',
       color: 'from-orange-500 to-red-500',
       skills: [
-        { name: 'Docker', level: 20 },
-        { name: 'AWS', level: 20 },
         { name: 'Git', level: 90 },
-        { name: 'CI/CD', level: 10 },
-        { name: 'Linux', level: 10 }
+        { name: 'GitHub', level: 90 },
+        { name: 'GitLab', level: 80 },
+        { name: 'Figma', level: 85 },
+        { name: 'Zeplin', level: 80 },
+        { name: 'Adobe Photoshop', level: 70 }
       ]
     },
     {
       icon: FiSmartphone,
-      title: '모바일 & 기타',
+      title: '프레임워크 & 라이브러리',
       color: 'from-indigo-500 to-purple-500',
       skills: [
-        { name: 'React Native', level: 10 },
-        { name: 'Flutter', level: 10 },
-        { name: 'GraphQL', level: 10 },
-        { name: 'REST API', level: 10 },
-        { name: 'WebSocket', level: 30 }
+        { name: 'Next.js', level: 75 },
+        { name: 'SCSS', level: 80 },
+        { name: 'Web Components', level: 75 },
+        { name: 'PixiJS', level: 60 },
+        { name: 'Semantic UI', level: 80 }
       ]
     }
   ]
@@ -83,8 +84,9 @@ export default function Skills() {
             <span className="text-gradient">기술 스택</span>을 소개합니다
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            다양한 프론트엔드 기술을 학습하고 적용하여 프론트엔드 개발자로서의 역량을 키워왔습니다.
-            각 기술에 대한 숙련도와 경험을 바탕으로 사용자 경험에 최적화된 솔루션을 제공합니다.
+            퍼블리싱은 누구보다 자신 있습니다. HTML/CSS는 물론, JavaScript와 Web Component, 
+            jQuery, Bootstrap 등 다양한 UI 컴포넌트 구현에 익숙합니다. 최근에는 Svelte와 React도 
+            활용하며, 반응형 UI 및 상태 기반 인터랙션 구현에도 능숙합니다.
           </p>
         </motion.div>
 
