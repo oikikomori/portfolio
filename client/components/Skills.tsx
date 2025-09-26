@@ -15,8 +15,6 @@ export default function Skills() {
         { name: 'JavaScript', level: 90 },
         { name: 'React', level: 80 },
         { name: 'Svelte', level: 85 },
-        { name: 'jQuery', level: 90 },
-        { name: 'Bootstrap', level: 85 },
         { name: 'Web Components', level: 95 }
       ]
     },
@@ -40,7 +38,6 @@ export default function Skills() {
       skills: [
         { name: 'MySQL', level: 80 },
         { name: 'MongoDB', level: 40 },
-        { name: 'PostgreSQL', level: 30 }
       ]
     },
     {
@@ -65,6 +62,8 @@ export default function Skills() {
         { name: 'SCSS', level: 80 },
         { name: 'Web Components', level: 95 },
         { name: 'PixiJS', level: 70 },
+        { name: 'jQuery', level: 90 },
+        { name: 'Bootstrap', level: 85 },
         { name: 'Semantic UI', level: 80 }
       ]
     }
