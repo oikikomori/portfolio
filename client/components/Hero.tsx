@@ -10,14 +10,14 @@ export default function Hero() {
       href: 'https://github.com/oikikomori/',
       label: 'GitHub'
     },
-    {
-      icon: FiLinkedin,
-      href: 'https://linkedin.com/in/yourusername',
-      label: 'LinkedIn'
-    },
+    // {
+    //   icon: FiLinkedin,
+    //   href: 'https://linkedin.com/in/yourusername',
+    //   label: 'LinkedIn'
+    // },
     {
       icon: FiMail,
-      href: 'mailto:contact@example.com',
+      href: 'mailto:c8c8c81828@gmail.com',
       label: 'Email'
     }
   ]
@@ -100,7 +100,7 @@ export default function Hero() {
             className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 mb-8 max-w-3xl mx-auto"
           >
             프론트엔드 개발자 <span className="font-semibold text-slate-800 dark:text-white">오승일</span>입니다.<br />
-            퍼블리싱은 누구보다 자신 있습니다. HTML/CSS부터 Svelte, React까지 다양한 기술을 활용합니다.
+            퍼블리싱(HTML/CSS)부터 Next.js Svelte, React까지 다양한 기술을 활용 가능⭐
           </motion.p>
 
           {/* CTA 버튼들 */}

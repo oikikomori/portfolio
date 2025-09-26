@@ -17,7 +17,7 @@ export default function Skills() {
         { name: 'Svelte', level: 85 },
         { name: 'jQuery', level: 90 },
         { name: 'Bootstrap', level: 85 },
-        { name: 'Web Components', level: 75 }
+        { name: 'Web Components', level: 95 }
       ]
     },
     {
@@ -63,8 +63,8 @@ export default function Skills() {
       skills: [
         { name: 'Next.js', level: 75 },
         { name: 'SCSS', level: 80 },
-        { name: 'Web Components', level: 75 },
-        { name: 'PixiJS', level: 60 },
+        { name: 'Web Components', level: 95 },
+        { name: 'PixiJS', level: 70 },
         { name: 'Semantic UI', level: 80 }
       ]
     }

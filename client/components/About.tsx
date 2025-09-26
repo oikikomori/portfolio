@@ -8,12 +8,12 @@ export default function About() {
     {
       icon: FiUser,
       title: '퍼블리싱 전문가',
-      description: 'HTML/CSS, JavaScript, jQuery, Bootstrap 등 다양한 UI 컴포넌트 구현에 익숙합니다.'
+      description: 'HTML/CSS, JavaScript, jQuery, Bootstrap 등 예전 기술과 템플릿을 통한 페이지 구현, 다양한 UI 컴포넌트 구현에 익숙합니다.'
     },
     {
       icon: FiCode,
       title: '모던 프론트엔드',
-      description: 'Svelte, React, Web Components를 활용한 반응형 UI 및 상태 기반 인터랙션 구현에 능숙합니다.'
+      description: 'Next.js, Svelte, React, Web Components를 활용한 반응형 UI 및 상태 기반 인터랙션 구현에 능숙합니다.'
     },
     {
       icon: FiHeart,
@@ -42,7 +42,7 @@ export default function About() {
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             프론트엔드 개발자로 화면 구성과 화면에 필요한 데이터 작업을 진행합니다.
-            HTML5, CSS3, JavaScript부터 Svelte, React까지 다양한 기술을 활용한 프로젝트 경험을 보유하고 있습니다.
+            HTML5, CSS3, JavaScript부터 Next.js, Svelte, React까지 다양한 기술을 활용한 프로젝트 경험을 보유하고 있습니다.
           </p>
         </motion.div>
 
@@ -59,7 +59,7 @@ export default function About() {
             </h3>
             <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
               퍼블리싱은 누구보다 자신 있습니다. HTML/CSS는 물론, JavaScript와 Web Component, 
-              jQuery, Bootstrap 등 다양한 UI 컴포넌트 구현에 익숙합니다. 최근에는 Svelte와 React도 
+              (jQuery, Bootstrap) 등 예전 기술과 템플릿을 통한 페이지 구현현 다양한 UI 컴포넌트 구현에 익숙합니다. 최근에는 Next.js, Svelte와 React도 
               활용하며, 반응형 UI 및 상태 기반 인터랙션 구현에도 능숙합니다.
             </p>
             <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
