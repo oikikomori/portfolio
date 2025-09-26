@@ -47,7 +47,7 @@ export default function Projects() {
       description: 'eztross/ Binary Option 관련 브랜드 사이트',
       content: 'Binary Option과 관련된 브랜드 사이트로, Next.js와 Node.js를 활용하여 구축했습니다. 반응형 디자인과 현대적인 UI/UX를 적용하여 사용자 경험을 향상시켰습니다.',
       technologies: ['Next.js', 'Node.js', 'HTML5', 'CSS 3', 'SCSS'],
-      images: ['/api/placeholder/600/400'],
+      images: ['/images/placeholder.svg'],
       githubUrl: '',
       liveUrl: 'https://www.babaoption.com/en/main',
       featured: true,
@@ -64,7 +64,7 @@ export default function Projects() {
       description: 'babaoption/ eztross/ Binary Option 관련 CRM 사이트',
       content: 'Binary Option 플랫폼에 필요한 CRM 사이트로 입출금 관련 업무를 관리합니다. Svelte와 Web Components를 활용하여 모던한 관리자 인터페이스를 구현했습니다.',
       technologies: ['HTML5', 'Svelte', 'Web Components', 'JavaScript', 'Go'],
-      images: ['/api/placeholder/600/400'],
+      images: ['/images/placeholder.svg'],
       githubUrl: '',
       liveUrl: 'https://www.babaoption.com/userpage/login',
       featured: true,
@@ -81,7 +81,7 @@ export default function Projects() {
       description: '코인 또는 통화로 게임을 할 수 있는 WTS',
       content: 'Binary Option을 통해 코인 또는 통화로 게임을 할 수 있는 웹 트레이딩 시스템입니다. PixiJS를 활용한 인터랙티브한 게임 요소와 Svelte를 통한 상태 관리를 구현했습니다.',
       technologies: ['HTML5', 'PixiJS', 'JavaScript'],
-      images: ['/api/placeholder/600/400'],
+      images: ['/images/placeholder.svg'],
       githubUrl: '',
       liveUrl: '',
       featured: true,
@@ -98,7 +98,7 @@ export default function Projects() {
       description: 'AI 기반 유아 성장 도움 앱',
       content: 'AI를 활용하여 유치원이나 부모가 유아를 더 편리하고 효과적으로 양육할 수 있도록 도와주는 웹앱입니다. React를 기반으로 한 반응형 UI와 사용자 친화적인 인터페이스를 구현했습니다.',
       technologies: ['HTML5', 'CSS 3', 'React', 'JavaScript'],
-      images: ['/api/placeholder/600/400'],
+      images: ['/images/placeholder.svg'],
       githubUrl: '',
       liveUrl: 'https://play.google.com/store/apps/details?id=com.lullaapp.android&hl=ko',
       featured: false,
@@ -110,12 +110,29 @@ export default function Projects() {
       role: '퍼블리싱 및 프론트엔드 개발'
     },
     {
+      id: '4-1',
+      title: '티찜 (tzzim)',
+      description: '골프 티찜 웹사이트',
+      content: '골프 티찜 웹사이트로, 골프 티찜을 소개하고 예약을 할 수 있는 웹사이트입니다. React를 기반으로 한 반응형 UI와 사용자 친화적인 인터페이스를 구현했습니다.',
+      technologies: ['HTML5', 'CSS 3', 'React', 'JavaScript'],
+      images: ['/images/tzzim.png'],
+      githubUrl: '',
+      liveUrl: 'https://apkpure.net/kr/%ED%8B%B0%EC%B0%9C/com.mnemosyne.teezzim_op',
+      featured: false,
+      category: 'mobile',
+      startDate: '2022-06-17',
+      endDate: '2022-07-29',
+      status: 'completed',
+      participants: '개인 프로젝트(외주)',
+      role: '퍼블리싱 및 프론트엔드 개발'
+    },
+    {
       id: '5',
       title: 'mytradinginfo/ admin',
       description: '코인 관련 정보 사이트 및 관리자 페이지',
       content: '코인 관련 정보를 제공하는 사이트로, 회사 프로젝트와 관련된 광고 및 고객 모집을 위해 제작되었습니다. 반응형 디자인과 관리자 화면을 개발했습니다.',
       technologies: ['HTML5', 'JavaScript', 'React', 'CSS 3'],
-      images: ['/api/placeholder/600/400'],
+      images: ['/images/placeholder.svg'],
       githubUrl: '',
       liveUrl: 'https://www.mytradinginfo.com/',
       featured: false,
@@ -132,7 +149,7 @@ export default function Projects() {
       description: '회사 소개 사이트 및 관리자 페이지',
       content: '회사 소개 사이트로 이력서와 문의를 받을 수 있으며, 이를 관리하기 위한 관리자 페이지 작업을 진행했습니다. EJS 템플릿 엔진을 활용한 서버사이드 렌더링을 구현했습니다.',
       technologies: ['HTML5', 'JavaScript', 'EJS'],
-      images: ['/api/placeholder/600/400'],
+      images: ['/images/placeholder.svg'],
       githubUrl: '',
       liveUrl: 'https://www.mysoftwiz.com/',
       featured: false,
@@ -149,7 +166,7 @@ export default function Projects() {
       description: 'baba 브랜드 관련 회사 소개 홈페이지',
       content: 'baba 브랜드와 관련된 회사 소개 홈페이지를 사내 프로젝트로 개발했습니다. Semantic UI를 활용한 반응형 페이지 퍼블리싱과 프론트엔드 작업을 담당했습니다.',
       technologies: ['HTML5', 'JavaScript', 'CSS 3', 'Semantic UI'],
-      images: ['/api/placeholder/600/400'],
+      images: ['/images/placeholder.svg'],
       githubUrl: '',
       liveUrl: '',
       featured: false,
@@ -166,7 +183,7 @@ export default function Projects() {
       description: '수영장 소개 사이트',
       content: '외주를 받아 퍼블리싱 작업만 진행한 수영장 소개 사이트입니다. 깔끔하고 직관적인 디자인으로 수영장의 시설과 서비스를 효과적으로 소개했습니다.',
       technologies: ['HTML5', 'CSS 3', 'JavaScript'],
-      images: ['/api/placeholder/600/400'],
+      images: ['/images/placeholder.svg'],
       githubUrl: '',
       liveUrl: '',
       featured: false,
@@ -183,7 +200,7 @@ export default function Projects() {
       description: '대진대학교 가족회사 사이트',
       content: '대진대학교 가족회사를 외주로 받아 퍼블리싱 작업을 진행했습니다. 다른 대학들과 마찬가지로 담당 대학에 대한 가족회사 사이트를 제작했습니다.',
       technologies: ['HTML5', 'CSS 3', 'jQuery'],
-      images: ['/api/placeholder/600/400'],
+      images: ['/images/placeholder.svg'],
       githubUrl: '',
       liveUrl: '',
       featured: false,
@@ -196,11 +213,28 @@ export default function Projects() {
     },
     {
       id: '10',
+      title: '대전교통약자이동지원센터터',
+      description: '교통약자 이동 지원 센터 사이트',
+      content: '교통약자 이동 지원 센터 사이트로 외주를 받아 퍼블리싱 작업을 진행했습니다. 다른 대학들과 마찬가지로 담당 대학에 대한 가족회사 사이트를 제작했습니다.',
+      technologies: ['HTML5', 'CSS 3', 'JavaScript'],
+      images: ['/images/dj_1.jpg'],
+      githubUrl: '',
+      liveUrl: 'https://djcall.or.kr/',
+      featured: false,
+      category: 'web',
+      startDate: '2019-11-20',
+      endDate: '2019-12-10',
+      status: 'completed',
+      participants: '외주 프로젝트트',
+      role: '전 퍼블리싱 담당'
+    },
+    {
+      id: '11',
       title: '스터디피티 (Study PT)',
       description: '공부 개인 맞춤형 훈련 프로젝트',
       content: '공부 개인 맞춤형 훈련 프로젝트로 외주를 받아 작업하였으며, 두 명이 작업을 진행했습니다. 전 퍼블리싱 작업을 담당하여 학생들에게 공부에 대한 편의를 제공하고자 했던 프로젝트입니다.',
       technologies: ['HTML5', 'CSS 3', 'jQuery'],
-      images: ['/api/placeholder/600/400'],
+      images: ['/images/placeholder.svg'],
       githubUrl: '',
       liveUrl: '',
       featured: false,
@@ -212,12 +246,12 @@ export default function Projects() {
       role: '전 퍼블리싱 작업 담당'
     },
     {
-      id: '11',
+      id: '12',
       title: 'kmuseum',
       description: '전국 박물관 예약 시스템',
       content: 'kmuseum 프로젝트에 총 두 명이 참여하였고, 전 퍼블리싱을 담당했습니다. 전국 모든 박물관에 공연, 전시, 이벤트 등 예약을 할 수 있는 사이트로 고객들에게 편의를 제공하기 위해 작업했던 프로젝트입니다.',
       technologies: ['HTML5', 'CSS 3', 'PHP'],
-      images: ['/api/placeholder/600/400'],
+      images: ['/images/kmuseum_1.jpg'],
       githubUrl: '',
       liveUrl: '',
       featured: false,
@@ -402,7 +436,18 @@ export default function Projects() {
                 {/* 프로젝트 이미지 */}
                 <div className="relative overflow-hidden">
                   <div className="w-full h-48 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-dark-700 dark:to-dark-600 flex items-center justify-center">
-                    <span className="text-gray-500 dark:text-gray-400">프로젝트 이미지</span>
+                    <img 
+                      src={project.images[0]} 
+                      alt={project.title}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none'
+                        e.currentTarget.nextElementSibling.style.display = 'flex'
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-dark-700 dark:to-dark-600 flex items-center justify-center" style={{display: 'none'}}>
+                      <span className="text-gray-500 dark:text-gray-400">프로젝트 이미지</span>
+                    </div>
                   </div>
                   {project.featured && (
                     <div className="absolute top-4 right-4 bg-primary-600 text-white px-3 py-1 rounded-full text-sm font-medium">

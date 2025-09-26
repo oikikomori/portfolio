@@ -48,20 +48,30 @@ export default function Contact() {
     setIsSubmitting(true)
 
     try {
-      // API 호출 시뮬레이션
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      
-      // 실제로는 여기서 API를 호출합니다
-      // const response = await fetch('/api/contact', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(formData)
-      // })
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      })
 
-      setIsSubmitted(true)
-      setFormData({ name: '', email: '', subject: '', message: '' })
+      const result = await response.json()
+
+      if (response.ok) {
+        setIsSubmitted(true)
+        setFormData({ name: '', email: '', subject: '', message: '' })
+        
+        // 메일 전송 성공/실패에 따른 알림
+        if (result.emailSent) {
+          console.log('메시지와 메일이 성공적으로 전송되었습니다.')
+        } else {
+          console.warn('메시지는 저장되었지만 메일 전송에 실패했습니다:', result.emailError)
+        }
+      } else {
+        throw new Error(result.message || '메시지 전송에 실패했습니다.')
+      }
     } catch (error) {
       console.error('메시지 전송 실패:', error)
+      alert('메시지 전송에 실패했습니다. 다시 시도해주세요.')
     } finally {
       setIsSubmitting(false)
     }

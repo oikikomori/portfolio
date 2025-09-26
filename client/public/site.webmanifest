@@ -1,0 +1,16 @@
+{
+  "name": "오승일 포트폴리오",
+  "short_name": "Portfolio",
+  "description": "프론트엔드 개발자 오승일의 포트폴리오 웹사이트",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

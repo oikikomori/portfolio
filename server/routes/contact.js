@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Contact = require('../models/Contact');
 const { body, validationResult } = require('express-validator');
+const { sendContactEmail } = require('../utils/email');
 
 // 연락처 메시지 전송
 router.post('/', [
@@ -23,10 +24,25 @@ router.post('/', [
     });
     
     const savedContact = await contact.save();
-    res.status(201).json({ 
-      message: '메시지가 성공적으로 전송되었습니다.',
-      contact: savedContact 
-    });
+    
+    // 메일 전송 시도
+    const emailResult = await sendContactEmail(req.body);
+    
+    if (emailResult.success) {
+      res.status(201).json({ 
+        message: '메시지가 성공적으로 전송되었습니다.',
+        contact: savedContact,
+        emailSent: true
+      });
+    } else {
+      // 메일 전송 실패해도 데이터베이스에는 저장됨
+      res.status(201).json({ 
+        message: '메시지가 저장되었습니다. (메일 전송 실패)',
+        contact: savedContact,
+        emailSent: false,
+        emailError: emailResult.message
+      });
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

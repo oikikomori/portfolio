@@ -53,7 +53,18 @@ export default function About() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
+            className="relative"
           >
+            {/* 프로필 이미지 */}
+            <div className="mb-8 flex justify-center md:justify-start">
+              <div className="w-32 h-32 rounded-full overflow-hidden bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20 flex items-center justify-center">
+                <img 
+                  src="/images/profile.svg" 
+                  alt="오승일 프로필"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
             <h3 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">
               안녕하세요, 저는 <span className="text-gradient">오승일</span>입니다
             </h3>
