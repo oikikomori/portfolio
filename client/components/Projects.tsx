@@ -55,7 +55,7 @@ export default function Projects() {
       startDate: '2025-01-01',
       endDate: '2025-03-01',
       status: 'completed',
-      participants: '개인 프로젝트',
+      participants: '팀 프로젝트(회사)',
       role: '전체 개발 담당'
     },
     {
@@ -72,15 +72,15 @@ export default function Projects() {
       startDate: '2023-03-01',
       endDate: '2024-12-31',
       status: 'in-progress',
-      participants: '개인 프로젝트',
-      role: '전체 개발 담당'
+      participants: '팀 프로젝트',
+      role: '퍼블리싱 및 프론트엔드 개발'
     },
     {
       id: '3',
-      title: 'babaoption/ eztross/ Binary Option',
+      title: 'eztross (Binary Option)',
       description: '코인 또는 통화로 게임을 할 수 있는 WTS',
       content: 'Binary Option을 통해 코인 또는 통화로 게임을 할 수 있는 웹 트레이딩 시스템입니다. PixiJS를 활용한 인터랙티브한 게임 요소와 Svelte를 통한 상태 관리를 구현했습니다.',
-      technologies: ['HTML5', 'PixiJS', 'JavaScript', 'Svelte'],
+      technologies: ['HTML5', 'PixiJS', 'JavaScript'],
       images: ['/api/placeholder/600/400'],
       githubUrl: '',
       liveUrl: '',
@@ -89,8 +89,8 @@ export default function Projects() {
       startDate: '2021-05-01',
       endDate: '2024-12-31',
       status: 'completed',
-      participants: '개인 프로젝트',
-      role: '전체 개발 담당'
+      participants: '팀팀 프로젝트',
+      role: '퍼블리싱 및 프론트엔드 개발'
     },
     {
       id: '4',
@@ -100,14 +100,14 @@ export default function Projects() {
       technologies: ['HTML5', 'CSS 3', 'React', 'JavaScript'],
       images: ['/api/placeholder/600/400'],
       githubUrl: '',
-      liveUrl: 'https://play.google.com/store/apps/details?id=com.lullaapp.and',
+      liveUrl: 'https://play.google.com/store/apps/details?id=com.lullaapp.android&hl=ko',
       featured: false,
       category: 'mobile',
       startDate: '2022-03-01',
       endDate: '2022-06-01',
       status: 'completed',
-      participants: '개인 프로젝트',
-      role: '전체 개발 담당'
+      participants: '개인 프로젝트(외주)',
+      role: '퍼블리싱 및 프론트엔드 개발'
     },
     {
       id: '5',
@@ -123,8 +123,8 @@ export default function Projects() {
       startDate: '2020-11-01',
       endDate: '2021-03-01',
       status: 'completed',
-      participants: '개인 프로젝트',
-      role: '전체 개발 담당'
+      participants: '팀 프로젝트(회사)',
+      role: '퍼블리싱 및 프론트엔드 개발'
     },
     {
       id: '6',
@@ -140,8 +140,8 @@ export default function Projects() {
       startDate: '2021-03-01',
       endDate: '2021-04-01',
       status: 'completed',
-      participants: '개인 프로젝트',
-      role: '전체 개발 담당'
+      participants: '팀 프로젝트(회사)',
+      role: '퍼블리싱 및 프론트엔드 개발'
     },
     {
       id: '7',
@@ -157,7 +157,7 @@ export default function Projects() {
       startDate: '2020-05-01',
       endDate: '2020-07-01',
       status: 'completed',
-      participants: '개인 프로젝트',
+      participants: '팀 프로젝트(회사)',
       role: '퍼블리싱 및 프론트엔드 개발'
     },
     {

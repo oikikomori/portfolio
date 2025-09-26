@@ -30,17 +30,22 @@ export default function Header() {
     if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
       setIsDarkMode(true)
       document.documentElement.classList.add('dark')
+    } else {
+      setIsDarkMode(false)
+      document.documentElement.classList.remove('dark')
     }
   }, [])
 
   const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode)
-    if (isDarkMode) {
-      document.documentElement.classList.remove('dark')
-      localStorage.setItem('theme', 'light')
-    } else {
+    const newDarkMode = !isDarkMode
+    setIsDarkMode(newDarkMode)
+    
+    if (newDarkMode) {
       document.documentElement.classList.add('dark')
       localStorage.setItem('theme', 'dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+      localStorage.setItem('theme', 'light')
     }
   }
 
