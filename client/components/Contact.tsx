@@ -17,20 +17,20 @@ export default function Contact() {
   const contactInfo = [
     {
       icon: FiMail,
-      title: '이메일',
+      title: 'E-mail',
       value: 'c8c8c81828@gmail.com',
       link: 'mailto:c8c8c81828@gmail.com'
     },
     {
       icon: FiPhone,
-      title: '전화번호',
+      title: 'Phone Number',
       value: '+82 050-6679-1577',
       link: 'tel:+82 050-6679-1577'
     },
     {
       icon: FiMapPin,
-      title: '위치',
-      value: '서울특별시 송파구',
+      title: 'Location',
+      value: '송파구 사람',
       link: null
     }
   ]
@@ -105,7 +105,7 @@ export default function Contact() {
             viewport={{ once: true }}
           >
             <h3 className="text-2xl font-bold mb-8 text-gray-800 dark:text-white">
-              연락처 정보
+              Contact Information
             </h3>
             
             <div className="space-y-6">
@@ -145,13 +145,13 @@ export default function Contact() {
             {/* 추가 정보 */}
             <div className="mt-12 p-6 bg-gray-50 dark:bg-dark-800 rounded-xl">
               <h4 className="text-lg font-semibold mb-3 text-gray-800 dark:text-white">
-                업무 시간
+                Business Hours
               </h4>
               <div className="space-y-2 text-gray-600 dark:text-gray-300">
-                <p>평일: 오전 9시 - 오후 6시</p>
-                <p>주말: 오후 1시 - 오후 4시</p>
+                <p>Weekdays: 9:00 AM – 6:00 PM</p>
+                <p>Weekends: 1:00 PM – 2:00 PM (open for limited service)</p>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-3">
-                  * 긴급한 문의사항은 언제든 연락주세요
+                  * 긴급한 문의사항은 언제든 연락주세요 (주말 빼고)
                 </p>
               </div>
             </div>
@@ -164,8 +164,8 @@ export default function Contact() {
               <div className="flex space-x-4">
                 {[
                   { name: 'GitHub', href: 'https://github.com', color: 'bg-gray-800 hover:bg-gray-900' },
-                  { name: 'LinkedIn', href: 'https://linkedin.com', color: 'bg-blue-600 hover:bg-blue-700' },
-                  { name: 'Twitter', href: 'https://twitter.com', color: 'bg-sky-500 hover:bg-sky-600' }
+                  // { name: 'LinkedIn', href: 'https://linkedin.com', color: 'bg-blue-600 hover:bg-blue-700' },
+                  // { name: 'Twitter', href: 'https://twitter.com', color: 'bg-sky-500 hover:bg-sky-600' }
                 ].map((social) => (
                   <a
                     key={social.name}
@@ -189,7 +189,7 @@ export default function Contact() {
             viewport={{ once: true }}
           >
             <h3 className="text-2xl font-bold mb-8 text-gray-800 dark:text-white">
-              메시지 보내기
+              Send Message
             </h3>
 
             {isSubmitted ? (
@@ -217,7 +217,7 @@ export default function Contact() {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      이름 *
+                      Name *
                     </label>
                     <input
                       type="text"
@@ -227,12 +227,12 @@ export default function Contact() {
                       onChange={handleInputChange}
                       required
                       className="input-field"
-                      placeholder="고길동"
+                      placeholder="Name"
                     />
                   </div>
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      이메일 *
+                      Email *
                     </label>
                     <input
                       type="email"
@@ -249,7 +249,7 @@ export default function Contact() {
 
                 <div>
                   <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    제목 *
+                    Subject *
                   </label>
                   <input
                     type="text"
@@ -259,7 +259,7 @@ export default function Contact() {
                     onChange={handleInputChange}
                     required
                     className="input-field"
-                    placeholder="문의사항 제목"
+                    placeholder="Subject"
                   />
                 </div>
 
@@ -275,7 +275,7 @@ export default function Contact() {
                     required
                     rows={6}
                     className="input-field resize-none"
-                    placeholder="자세한 내용을 작성해 주세요..."
+                    placeholder="내용을 적어주세요요"
                   />
                 </div>
 
@@ -294,7 +294,7 @@ export default function Contact() {
                   ) : (
                     <div className="flex items-center justify-center space-x-2">
                       <FiSend size={20} />
-                      <span>메시지 전송</span>
+                      <span>Submit</span>
                     </div>
                   )}
                 </motion.button>

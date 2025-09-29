@@ -6,10 +6,10 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: {
-    default: '승짱 - Portfolio',
-    template: '%s | 승짱 포트폴리오'
+    default: 'Okuma - Portfolio',
+    template: '%s | Okuma 포트폴리오'
   },
-  description: '프론트엔드 개발자 승짱의 포트폴리오 웹사이트. Next.js, React, TypeScript, Tailwind CSS 등을 활용한 프로젝트들과 개발 경험을 공유합니다.',
+  description: '프론트엔드 개발자 Okuma 포트폴리오 웹사이트. Next.js, React, TypeScript, Tailwind CSS 등을 활용한 프로젝트들과 개발 경험을 공유합니다.',
   keywords: [
     '포트폴리오',
     '웹 개발자',
@@ -39,21 +39,21 @@ export const metadata: Metadata = {
     locale: 'ko_KR',
     url: 'https://portfolio-pi-eight-svjrkqfkn0.vercel.app/',
     title: 'Portfolio',
-    description: '프론트엔드 개발자 승짱의 포트폴리오 웹사이트',
-    siteName: '승짱 포트폴리오',
+    description: '프론트엔드 개발자 Okuma 포트폴리오 웹사이트',
+    siteName: 'Okuma 포트폴리오',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: '승짱 포트폴리오',
+        alt: 'Okuma 포트폴리오',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: '승짱 - 포트폴리오',
-    description: '프론트엔드 개발자 승짱의 포트폴리오 웹사이트',
+    title: 'Okuma - 포트폴리오',
+    description: '프론트엔드 개발자 Okuma 포트폴리오 웹사이트',
     images: ['/og-image.jpg'],
   },
   robots: {
@@ -89,7 +89,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Person",
-              "name": "승짱",
+              "name": "Okuma",
               "jobTitle": "프론트엔드 개발자",
               "description": "Next.js, React, Node.js, MongoDB를 활용한 웹 개발자",
               "url": "https://portfolio-pi-eight-svjrkqfkn0.vercel.app/",
@@ -119,7 +119,7 @@ export default function RootLayout({
         <meta name="msapplication-TileColor" content="#3B82F6" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="승짱 포트폴리오" />
+        <meta name="apple-mobile-web-app-title" content="Okuma 포트폴리오" />
         
         {/* 다크모드 스크립트 */}
         <script

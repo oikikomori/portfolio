@@ -66,11 +66,11 @@ export default function Header() {
   }
 
   const navItems = [
-    { id: 'about', label: '소개' },
-    { id: 'skills', label: '기술' },
-    { id: 'projects', label: '프로젝트' },
-    { id: 'posts', label: '게시판' },
-    { id: 'contact', label: '연락처' }
+    { id: 'about', label: 'About' },
+    { id: 'skills', label: 'Skills' },
+    { id: 'projects', label: 'Projects' },
+    { id: 'posts', label: 'Posts' },
+    { id: 'contact', label: 'Contact' }
   ]
 
   return (
@@ -168,7 +168,7 @@ export default function Header() {
                     console.log('검색:', query)
                     // 실제 검색 로직 구현
                   }}
-                  placeholder="프로젝트나 게시글을 검색하세요..."
+                  placeholder="Search projects or posts..."
                   className="max-w-2xl mx-auto"
                 />
               </motion.div>

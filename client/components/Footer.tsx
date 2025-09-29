@@ -8,9 +8,9 @@ export default function Footer() {
 
   const socialLinks = [
     { icon: FiGithub, href: 'https://github.com', label: 'GitHub' },
-    { icon: FiLinkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
-    { icon: FiTwitter, href: 'https://twitter.com', label: 'Twitter' },
-    { icon: FiMail, href: 'mailto:contact@example.com', label: 'Email' }
+    // { icon: FiLinkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
+    // { icon: FiTwitter, href: 'https://twitter.com', label: 'Twitter' },
+    { icon: FiMail, href: 'mailto:c8c8c81828@gmail.com', label: 'Email' }
   ]
 
   const scrollToTop = () => {
@@ -70,15 +70,15 @@ export default function Footer() {
               transition={{ duration: 0.6, delay: 0.1 }}
               viewport={{ once: true }}
             >
-              <h4 className="text-lg font-semibold mb-4">빠른 링크</h4>
+              <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2">
                 {[
-                  { name: '홈', href: '#home' },
-                  { name: '소개', href: '#about' },
-                  { name: '기술', href: '#skills' },
-                  { name: '프로젝트', href: '#projects' },
-                  { name: '게시판', href: '#posts' },
-                  { name: '연락처', href: '#contact' }
+                  { name: 'Home', href: '#home' },
+                  { name: 'About', href: '#about' },
+                  { name: 'Skills', href: '#skills' },
+                  { name: 'Projects', href: '#projects' },
+                  { name: 'Posts', href: '#posts' },
+                  { name: 'Contact', href: '#contact' }
                 ].map((link) => (
                   <li key={link.name}>
                     <a
@@ -99,11 +99,11 @@ export default function Footer() {
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              <h4 className="text-lg font-semibold mb-4">연락처</h4>
+              <h4 className="text-lg font-semibold mb-4">Contact Us</h4>
               <ul className="space-y-2 text-gray-300">
                 <li>c8c8c81828@gmail.com</li>
                 <li>+82 050-6679-1577</li>
-                <li>서울특별시 송파구</li>
+                <li>송파구 사람</li>
               </ul>
             </motion.div>
           </div>
@@ -133,10 +133,10 @@ export default function Footer() {
               className="flex items-center space-x-6 text-sm text-gray-400"
             >
               <a href="#" className="hover:text-white transition-colors duration-200">
-                개인정보처리방침
+                Privacy Policy
               </a>
               <a href="#" className="hover:text-white transition-colors duration-200">
-                이용약관
+                Terms of Service
               </a>
             </motion.div>
           </div>
