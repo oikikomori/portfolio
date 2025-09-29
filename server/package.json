@@ -9,7 +9,7 @@
     "test": "jest",
     "lint": "eslint .",
     "seed": "node scripts/seed.js",
-    "generate-token": "node scripts/generate-refresh-token.js"
+    "generate-token": "node scripts/web-oauth.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -27,6 +27,7 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.10.1",
+    "open": "^10.2.0",
     "sharp": "^0.33.0",
     "uuid": "^9.0.1",
     "winston": "^3.11.0"
