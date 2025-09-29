@@ -1,6 +1,5 @@
 const { google } = require('googleapis');
 const express = require('express');
-const open = require('open');
 require('dotenv').config();
 
 async function generateRefreshTokenWeb() {
@@ -16,11 +15,11 @@ async function generateRefreshTokenWeb() {
   const oauth2Client = new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
-    'http://localhost:3000/auth/callback'
+    'http://localhost:3001/auth/callback'
   );
 
   const app = express();
-  const PORT = 3000;
+  const PORT = 3001;
 
   // 인증 URL 생성
   const authUrl = oauth2Client.generateAuthUrl({
@@ -78,8 +77,8 @@ async function generateRefreshTokenWeb() {
     console.log(`2️⃣ 로컬 서버가 http://localhost:${PORT}에서 시작되었습니다.`);
     console.log('3️⃣ 위 URL을 클릭하면 자동으로 브라우저가 열립니다.\n');
     
-    // 자동으로 브라우저 열기
-    open(authUrl);
+    // 브라우저 열기 안내
+    console.log('브라우저에서 위 URL을 열어주세요.');
   });
 }
 
