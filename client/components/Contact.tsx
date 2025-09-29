@@ -265,7 +265,7 @@ export default function Contact() {
 
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    메시지 *
+                    Message *
                   </label>
                   <textarea
                     id="message"
@@ -275,7 +275,7 @@ export default function Contact() {
                     required
                     rows={6}
                     className="input-field resize-none"
-                    placeholder="내용을 적어주세요요"
+                    placeholder="내용을 적어주세요요오오"
                   />
                 </div>
 
