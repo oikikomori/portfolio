@@ -66,6 +66,19 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// OAuth 콜백 라우트
+app.get('/auth/callback', (req, res) => {
+  res.send(`
+    <html>
+      <body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
+        <h2 style="color: green;">✅ OAuth 인증이 완료되었습니다!</h2>
+        <p>이제 Gmail 이메일 전송 기능을 사용할 수 있습니다.</p>
+        <p>이 창을 닫아도 됩니다.</p>
+      </body>
+    </html>
+  `);
+});
+
 // 라우트
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/projects', require('./routes/projects'));

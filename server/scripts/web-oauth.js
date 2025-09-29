@@ -15,7 +15,7 @@ async function generateRefreshTokenWeb() {
   const oauth2Client = new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
-    'http://localhost:3001/auth/callback'
+    'https://kuuuma.com/auth/callback'
   );
 
   const app = express();
