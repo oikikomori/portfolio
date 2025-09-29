@@ -79,6 +79,33 @@ app.get('/auth/callback', (req, res) => {
   `);
 });
 
+// 이메일 설정 테스트 API
+app.get('/api/test-email-config', async (req, res) => {
+  try {
+    const { validateOAuthConfig } = require('./utils/oauth');
+    
+    // 환경변수 검증
+    validateOAuthConfig();
+    
+    res.json({
+      success: true,
+      message: '이메일 설정이 올바르게 구성되었습니다.',
+      config: {
+        hasClientId: !!process.env.GOOGLE_CLIENT_ID,
+        hasClientSecret: !!process.env.GOOGLE_CLIENT_SECRET,
+        hasRefreshToken: !!process.env.GOOGLE_REFRESH_TOKEN,
+        smtpUser: process.env.SMTP_USER
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: '이메일 설정에 문제가 있습니다.',
+      error: error.message
+    });
+  }
+});
+
 // 라우트
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/projects', require('./routes/projects'));
