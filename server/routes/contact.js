@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 const Contact = require('../models/Contact');
 const { body, validationResult } = require('express-validator');
 const { sendContactEmail } = require('../utils/email');
@@ -22,6 +23,15 @@ router.post('/', [
       ipAddress: req.ip,
       userAgent: req.get('User-Agent')
     });
+    
+    // MongoDB 연결 확인
+    if (!mongoose.connection.readyState) {
+      console.log('⚠️ MongoDB 연결이 없습니다. 메시지를 저장할 수 없습니다.');
+      return res.status(503).json({ 
+        message: '데이터베이스 연결이 없습니다. 잠시 후 다시 시도해주세요.',
+        emailSent: false
+      });
+    }
     
     const savedContact = await contact.save();
     

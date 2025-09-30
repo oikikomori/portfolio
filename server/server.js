@@ -156,9 +156,13 @@ app.use('*', (req, res) => {
 // 서버 시작
 const startServer = async () => {
   try {
-    // 데이터베이스 연결
-    await connectDB();
-    console.log('✅ MongoDB에 연결되었습니다.');
+    // 데이터베이스 연결 (실패해도 서버는 계속 실행)
+    try {
+      await connectDB();
+      console.log('✅ MongoDB에 연결되었습니다.');
+    } catch (dbError) {
+      console.error('⚠️ MongoDB 연결 실패, 서버는 계속 실행됩니다:', dbError.message);
+    }
     
     app.listen(PORT, () => {
       console.log(`🚀 서버가 포트 ${PORT}에서 실행 중입니다.`);
