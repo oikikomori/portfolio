@@ -8,7 +8,14 @@ export async function GET() {
       hasClientId: !!process.env.GOOGLE_CLIENT_ID,
       hasClientSecret: !!process.env.GOOGLE_CLIENT_SECRET,
       hasRefreshToken: !!process.env.GOOGLE_REFRESH_TOKEN,
-      smtpUser: process.env.SMTP_USER
+      smtpUser: process.env.SMTP_USER,
+      // 디버깅을 위한 실제 값들 (보안상 일부만 표시)
+      clientIdValue: process.env.GOOGLE_CLIENT_ID ? process.env.GOOGLE_CLIENT_ID.substring(0, 10) + '...' : 'NOT_SET',
+      clientSecretValue: process.env.GOOGLE_CLIENT_SECRET ? process.env.GOOGLE_CLIENT_SECRET.substring(0, 10) + '...' : 'NOT_SET',
+      refreshTokenValue: process.env.GOOGLE_REFRESH_TOKEN ? process.env.GOOGLE_REFRESH_TOKEN.substring(0, 10) + '...' : 'NOT_SET',
+      smtpUserValue: process.env.SMTP_USER || 'NOT_SET',
+      // 모든 환경변수 목록 확인
+      allEnvVars: Object.keys(process.env).filter(key => key.includes('GOOGLE') || key.includes('SMTP'))
     };
 
     const allConfigured = config.hasClientId && config.hasClientSecret && config.hasRefreshToken && config.smtpUser;
