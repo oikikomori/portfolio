@@ -34,7 +34,15 @@ const createTransporter = async () => {
     });
   } catch (error) {
     console.error('OAuth 2.0 전송기 생성 실패:', error);
-    throw new Error('이메일 전송기 생성에 실패했습니다.');
+    
+    // DNS 오류인 경우 특별 처리
+    if (error.code === 'DNS_HOSTNAME_RESOLVED_PRIVATE' || 
+        error.message.includes('DNS') || 
+        error.message.includes('ENOTFOUND')) {
+      throw new Error('Google OAuth 서비스에 연결할 수 없습니다. 네트워크 설정을 확인해주세요.');
+    }
+    
+    throw new Error(`이메일 전송기 생성에 실패했습니다: ${error.message}`);
   }
 };
 

@@ -33,19 +33,34 @@ router.post('/', [
       console.log('✅ 메시지가 데이터베이스에 저장되었습니다:', savedContact._id);
     }
     
-    // 메일 전송 임시 비활성화 (DNS 문제 해결 전까지)
-    console.log('이메일 전송이 임시로 비활성화되었습니다.');
-    const emailResult = { 
-      success: false, 
-      message: '이메일 전송이 임시로 비활성화되었습니다. 메시지는 데이터베이스에 저장되었습니다.' 
-    };
+    // 메일 전송 시도
+    console.log('이메일 전송 시도 중...');
+    let emailResult = { success: false, message: '이메일 전송 실패' };
+    
+    try {
+      emailResult = await sendContactEmail(req.body);
+      console.log('이메일 전송 결과:', emailResult);
+    } catch (emailError) {
+      console.error('이메일 전송 오류:', emailError);
+      emailResult = { 
+        success: false, 
+        message: `이메일 전송 실패: ${emailError.message}` 
+      };
+    }
     
     // 성공 응답
-    res.status(201).json({ 
-      message: '메시지가 성공적으로 전송되었습니다.',
-      emailSent: false,
-      emailError: emailResult.message
-    });
+    if (emailResult.success) {
+      res.status(201).json({ 
+        message: '메시지가 성공적으로 전송되었습니다.',
+        emailSent: true
+      });
+    } else {
+      res.status(201).json({ 
+        message: '메시지가 저장되었습니다. (메일 전송 실패)',
+        emailSent: false,
+        emailError: emailResult.message
+      });
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

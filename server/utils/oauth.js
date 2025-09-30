@@ -28,6 +28,9 @@ const createOAuth2Client = () => {
     }
   };
 
+  // DNS 문제 해결을 위한 추가 설정
+  oauth2Client.request = oauth2Client.request.bind(oauth2Client);
+
   return oauth2Client;
 };
 
