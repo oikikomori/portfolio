@@ -6,13 +6,16 @@ const createOAuth2Client = () => {
   const oauth2Client = new OAuth2Client(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
-    'urn:ietf:wg:oauth:2.0:oob' // out-of-band flow
+    'https://kuuuma.com/auth/callback' // 웹 애플리케이션 flow
   );
 
   // 리프레시 토큰 설정
   oauth2Client.setCredentials({
     refresh_token: process.env.GOOGLE_REFRESH_TOKEN
   });
+
+  // 타임아웃 설정 추가
+  oauth2Client.timeout = 30000; // 30초
 
   return oauth2Client;
 };
@@ -25,7 +28,15 @@ const getAccessToken = async () => {
     return token;
   } catch (error) {
     console.error('액세스 토큰 가져오기 실패:', error);
-    throw new Error('OAuth 2.0 인증에 실패했습니다.');
+    
+    // DNS 오류인 경우 특별 처리
+    if (error.code === 'DNS_HOSTNAME_RESOLVED_PRIVATE' || 
+        error.message.includes('DNS') || 
+        error.message.includes('ENOTFOUND')) {
+      throw new Error('Google OAuth 서비스에 연결할 수 없습니다. 네트워크 설정을 확인해주세요.');
+    }
+    
+    throw new Error(`OAuth 2.0 인증에 실패했습니다: ${error.message}`);
   }
 };
 
