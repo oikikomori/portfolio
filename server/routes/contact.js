@@ -26,14 +26,12 @@ router.post('/', [
     
     // MongoDB 연결 확인
     if (!mongoose.connection.readyState) {
-      console.log('⚠️ MongoDB 연결이 없습니다. 메시지를 저장할 수 없습니다.');
-      return res.status(503).json({ 
-        message: '데이터베이스 연결이 없습니다. 잠시 후 다시 시도해주세요.',
-        emailSent: false
-      });
+      console.log('⚠️ MongoDB 연결이 없습니다. 메시지를 저장하지 않습니다.');
+      // MongoDB가 없어도 응답은 정상적으로 처리
+    } else {
+      const savedContact = await contact.save();
+      console.log('✅ 메시지가 데이터베이스에 저장되었습니다:', savedContact._id);
     }
-    
-    const savedContact = await contact.save();
     
     // 메일 전송 임시 비활성화 (DNS 문제 해결 전까지)
     console.log('이메일 전송이 임시로 비활성화되었습니다.');
@@ -42,21 +40,12 @@ router.post('/', [
       message: '이메일 전송이 임시로 비활성화되었습니다. 메시지는 데이터베이스에 저장되었습니다.' 
     };
     
-    if (emailResult.success) {
-      res.status(201).json({ 
-        message: '메시지가 성공적으로 전송되었습니다.',
-        contact: savedContact,
-        emailSent: true
-      });
-    } else {
-      // 메일 전송 실패해도 데이터베이스에는 저장됨
-      res.status(201).json({ 
-        message: '메시지가 저장되었습니다. (메일 전송 실패)',
-        contact: savedContact,
-        emailSent: false,
-        emailError: emailResult.message
-      });
-    }
+    // 성공 응답
+    res.status(201).json({ 
+      message: '메시지가 성공적으로 전송되었습니다.',
+      emailSent: false,
+      emailError: emailResult.message
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

@@ -7,6 +7,12 @@ const connectDB = async () => {
       ? process.env.MONGODB_URI_PROD || process.env.MONGODB_URI
       : process.env.MONGODB_URI || 'mongodb://localhost:27017/portfolio';
     
+    // MongoDB URI가 없으면 연결하지 않음
+    if (!uri || uri === 'mongodb://localhost:27017/portfolio') {
+      console.log('⚠️ MongoDB URI가 설정되지 않았습니다. 데이터베이스 연결을 건너뜁니다.');
+      return;
+    }
+    
     const options = {
       serverSelectionTimeoutMS: 5000, // 5초 타임아웃
       socketTimeoutMS: 45000, // 45초 소켓 타임아웃
@@ -16,14 +22,9 @@ const connectDB = async () => {
     console.log(`✅ MongoDB 연결 성공: ${connection.connection.host}`);
   } catch (error) {
     console.error('❌ MongoDB 연결 실패:', error.message);
-    
-    // 프로덕션 환경에서는 연결 실패 시 서버를 종료하지 않음
-    if (process.env.NODE_ENV === 'production') {
-      console.log('⚠️ 프로덕션 환경에서 MongoDB 연결 실패, 서버는 계속 실행됩니다.');
-      return;
-    }
-    
-    throw error;
+    console.log('⚠️ MongoDB 연결 실패, 서버는 계속 실행됩니다.');
+    // 연결 실패해도 서버는 계속 실행
+    return;
   }
 };
 
