@@ -8,8 +8,6 @@ const connectDB = async () => {
       : process.env.MONGODB_URI || 'mongodb://localhost:27017/portfolio';
     
     const options = {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
       serverSelectionTimeoutMS: 5000, // 5초 타임아웃
       socketTimeoutMS: 45000, // 45초 소켓 타임아웃
     };
