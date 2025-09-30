@@ -33,20 +33,12 @@ router.post('/', [
       console.log('✅ 메시지가 데이터베이스에 저장되었습니다:', savedContact._id);
     }
     
-    // 메일 전송 시도
-    console.log('이메일 전송 시도 중...');
-    let emailResult = { success: false, message: '이메일 전송 실패' };
-    
-    try {
-      emailResult = await sendContactEmail(req.body);
-      console.log('이메일 전송 결과:', emailResult);
-    } catch (emailError) {
-      console.error('이메일 전송 오류:', emailError);
-      emailResult = { 
-        success: false, 
-        message: `이메일 전송 실패: ${emailError.message}` 
-      };
-    }
+    // 메일 전송 임시 비활성화 (환경변수 설정 완료까지)
+    console.log('이메일 전송이 임시로 비활성화되었습니다. (환경변수 설정 필요)');
+    const emailResult = { 
+      success: false, 
+      message: '이메일 전송이 임시로 비활성화되었습니다. 환경변수 설정 후 활성화됩니다.' 
+    };
     
     // 성공 응답
     if (emailResult.success) {
