@@ -41,7 +41,14 @@ const createTransporter = async () => {
 // 연락처 메시지 전송
 const sendContactEmail = async (contactData) => {
   try {
+    console.log('이메일 전송 시작:', { 
+      name: contactData.name, 
+      email: contactData.email,
+      subject: contactData.subject 
+    });
+    
     const transporter = await createTransporter();
+    console.log('이메일 전송기 생성 완료');
     
     // 관리자에게 보낼 메일
     const adminMailOptions = {

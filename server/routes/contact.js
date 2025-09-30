@@ -25,8 +25,20 @@ router.post('/', [
     
     const savedContact = await contact.save();
     
-    // 메일 전송 시도
-    const emailResult = await sendContactEmail(req.body);
+    // 메일 전송 시도 (DNS 문제로 인해 임시 비활성화)
+    console.log('이메일 전송 시도 중...');
+    let emailResult = { success: false, message: 'DNS 문제로 인해 이메일 전송이 일시적으로 비활성화되었습니다.' };
+    
+    try {
+      emailResult = await sendContactEmail(req.body);
+      console.log('이메일 전송 결과:', emailResult);
+    } catch (emailError) {
+      console.error('이메일 전송 오류:', emailError);
+      emailResult = { 
+        success: false, 
+        message: `이메일 전송 실패: ${emailError.message}` 
+      };
+    }
     
     if (emailResult.success) {
       res.status(201).json({ 

@@ -17,6 +17,17 @@ const createOAuth2Client = () => {
   // 타임아웃 설정 추가
   oauth2Client.timeout = 30000; // 30초
 
+  // Google API 엔드포인트 명시적 설정
+  oauth2Client.options = {
+    ...oauth2Client.options,
+    timeout: 30000,
+    retry: true,
+    retryConfig: {
+      retry: 3,
+      retryDelay: 1000
+    }
+  };
+
   return oauth2Client;
 };
 
