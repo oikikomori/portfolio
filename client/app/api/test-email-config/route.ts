@@ -32,7 +32,7 @@ export async function GET() {
     return NextResponse.json({
       success: false,
       message: '이메일 설정 테스트에 실패했습니다.',
-      error: error.message
+      error: error instanceof Error ? error.message : 'Unknown error'
     }, { status: 500 });
   }
 }
