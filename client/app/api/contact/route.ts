@@ -33,8 +33,24 @@ export async function POST(request: Request) {
     let emailResult = { success: false, message: '이메일 전송 실패' };
     
     try {
-      // Nodemailer를 사용한 간단한 이메일 전송
+      // Nodemailer와 Google OAuth2 설정
       const nodemailer = require('nodemailer');
+      const { google } = require('googleapis');
+      
+      // OAuth2 클라이언트 생성
+      const oauth2Client = new google.auth.OAuth2(
+        process.env.GOOGLE_CLIENT_ID,
+        process.env.GOOGLE_CLIENT_SECRET,
+        'https://kuuuma.com/auth/callback'
+      );
+      
+      // 리프레시 토큰 설정
+      oauth2Client.setCredentials({
+        refresh_token: process.env.GOOGLE_REFRESH_TOKEN
+      });
+      
+      // 액세스 토큰 가져오기
+      const { token: accessToken } = await oauth2Client.getAccessToken();
       
       // Gmail OAuth2 설정
       const transporter = nodemailer.createTransporter({
@@ -45,7 +61,7 @@ export async function POST(request: Request) {
           clientId: process.env.GOOGLE_CLIENT_ID,
           clientSecret: process.env.GOOGLE_CLIENT_SECRET,
           refreshToken: process.env.GOOGLE_REFRESH_TOKEN,
-          accessToken: process.env.GOOGLE_ACCESS_TOKEN
+          accessToken: accessToken
         }
       });
 
