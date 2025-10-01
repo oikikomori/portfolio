@@ -53,7 +53,7 @@ export async function POST(request: Request) {
       const { token: accessToken } = await oauth2Client.getAccessToken();
       
       // Gmail OAuth2 설정
-      const transporter = nodemailer.createTransporter({
+      const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
           type: 'OAuth2',
@@ -95,6 +95,11 @@ export async function POST(request: Request) {
       
     } catch (emailError) {
       console.error('이메일 전송 오류:', emailError);
+      console.error('오류 상세:', {
+        name: emailError.name,
+        message: emailError.message,
+        stack: emailError.stack
+      });
       emailResult = { 
         success: false, 
         message: `이메일 전송 실패: ${emailError.message}` 
