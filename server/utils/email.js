@@ -55,8 +55,14 @@ const sendContactEmail = async (contactData) => {
       subject: contactData.subject 
     });
     
+    console.log('OAuth 설정 확인 중...');
     const transporter = await createTransporter();
     console.log('이메일 전송기 생성 완료');
+    
+    // 전송기 연결 테스트
+    console.log('전송기 연결 테스트 중...');
+    await transporter.verify();
+    console.log('전송기 연결 테스트 성공');
     
     // 관리자에게 보낼 메일
     const adminMailOptions = {

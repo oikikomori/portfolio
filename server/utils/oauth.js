@@ -37,11 +37,23 @@ const createOAuth2Client = () => {
 // 액세스 토큰 가져오기 (자동 갱신 포함)
 const getAccessToken = async () => {
   try {
+    console.log('OAuth 클라이언트 생성 중...');
     const oauth2Client = createOAuth2Client();
+    console.log('OAuth 클라이언트 생성 완료');
+    
+    console.log('액세스 토큰 요청 중...');
     const { token } = await oauth2Client.getAccessToken();
+    console.log('액세스 토큰 획득 성공:', token ? '토큰 존재' : '토큰 없음');
+    
     return token;
   } catch (error) {
     console.error('액세스 토큰 가져오기 실패:', error);
+    console.error('오류 상세:', {
+      code: error.code,
+      message: error.message,
+      status: error.status,
+      response: error.response?.data
+    });
     
     // DNS 오류인 경우 특별 처리
     if (error.code === 'DNS_HOSTNAME_RESOLVED_PRIVATE' || 
