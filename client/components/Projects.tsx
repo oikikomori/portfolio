@@ -341,8 +341,23 @@ export default function Projects() {
   if (isLoading) {
     return (
       <section id="projects" className="section-padding bg-white dark:bg-dark-900">
-        <div className="container-custom text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+        <div className="container-custom">
+          <div className="text-center mb-16">
+            <div className="inline-block">
+              <div className="w-16 h-16 mx-auto mb-4 relative">
+                <div className="absolute inset-0 border-4 border-primary-200 dark:border-primary-800 rounded-full"></div>
+                <div className="absolute inset-0 border-4 border-transparent border-t-primary-600 border-r-primary-600 rounded-full animate-spin"></div>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                프로젝트를 불러오는 중...
+              </h3>
+              <div className="flex items-center justify-center space-x-1">
+                <div className="w-2 h-2 bg-primary-600 rounded-full animate-bounce"></div>
+                <div className="w-2 h-2 bg-primary-600 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                <div className="w-2 h-2 bg-primary-600 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     )
