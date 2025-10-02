@@ -71,6 +71,8 @@ export async function POST(request: Request) {
         }
       });
 
+      console.log('이메일 전송기 생성 완료');
+
       // 관리자에게 보낼 메일
       const adminMailOptions = {
         from: process.env.SMTP_USER,
@@ -96,7 +98,10 @@ export async function POST(request: Request) {
         `
       };
 
+      console.log('이메일 전송 중...');
       await transporter.sendMail(adminMailOptions);
+      console.log('이메일 전송 성공!');
+      
       emailResult = { success: true, message: '이메일이 성공적으로 전송되었습니다.' };
       
     } catch (emailError) {
