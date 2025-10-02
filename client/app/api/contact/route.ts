@@ -29,9 +29,14 @@ export async function POST(request: Request) {
       message: body.message
     });
 
-    // 이메일 전송 시도
-    let emailResult = { success: false, message: '이메일 전송 실패' };
+    // 이메일 전송 임시 비활성화 (OAuth 토큰 문제 해결 전까지)
+    console.log('이메일 전송이 임시로 비활성화되었습니다. (OAuth 토큰 문제)');
+    const emailResult = { 
+      success: false, 
+      message: '이메일 전송이 임시로 비활성화되었습니다. OAuth 토큰 문제를 해결한 후 활성화됩니다.' 
+    };
     
+    /* 이메일 전송 시도 (임시 비활성화)
     try {
       console.log('이메일 전송 시작...');
       
@@ -116,6 +121,7 @@ export async function POST(request: Request) {
         message: `이메일 전송 실패: ${emailError.message}` 
       };
     }
+    */
 
     // 성공 응답
     return NextResponse.json({
