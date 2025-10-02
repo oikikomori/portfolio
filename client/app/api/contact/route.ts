@@ -33,10 +33,13 @@ export async function POST(request: Request) {
     let emailResult = { success: false, message: '이메일 전송 실패' };
     
     try {
+      console.log('이메일 전송 시작...');
+      
       // Nodemailer와 Google OAuth2 설정
       const nodemailer = require('nodemailer');
       const { google } = require('googleapis');
       
+      console.log('OAuth2 클라이언트 생성 중...');
       // OAuth2 클라이언트 생성
       const oauth2Client = new google.auth.OAuth2(
         process.env.GOOGLE_CLIENT_ID,
@@ -44,13 +47,16 @@ export async function POST(request: Request) {
         'https://kuuuma.com/auth/callback'
       );
       
+      console.log('리프레시 토큰 설정 중...');
       // 리프레시 토큰 설정
       oauth2Client.setCredentials({
         refresh_token: process.env.GOOGLE_REFRESH_TOKEN
       });
       
+      console.log('액세스 토큰 요청 중...');
       // 액세스 토큰 가져오기
       const { token: accessToken } = await oauth2Client.getAccessToken();
+      console.log('액세스 토큰 획득 성공:', accessToken ? '토큰 존재' : '토큰 없음');
       
       // Gmail OAuth2 설정
       const transporter = nodemailer.createTransport({
