@@ -40,6 +40,7 @@ app.use(helmet({
 app.use(cors({
   origin: [
     'http://localhost:3000',
+    'http://localhost:3001',
     'https://kuuuma.com',
     'https://www.kuuuma.com'
   ],
@@ -115,6 +116,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/projects', require('./routes/projects'));
 app.use('/api/posts', require('./routes/posts'));
 app.use('/api/contact', require('./routes/contact'));
+app.use('/api/ai', require('./routes/ai'));
 
 // 기본 라우트
 app.get('/', (req, res) => {
@@ -162,8 +164,12 @@ const startServer = async () => {
   try {
     // 데이터베이스 연결 (실패해도 서버는 계속 실행)
     try {
-      await connectDB();
-      console.log('✅ MongoDB에 연결되었습니다.');
+      const dbResult = await connectDB();
+      if (dbResult !== undefined) {
+        console.log('✅ MongoDB에 연결되었습니다.');
+      } else {
+        console.log('ℹ️ MongoDB 연결을 건너뛰었습니다. 샘플 데이터를 사용합니다.');
+      }
     } catch (dbError) {
       console.error('⚠️ MongoDB 연결 실패, 서버는 계속 실행됩니다:', dbError.message);
     }

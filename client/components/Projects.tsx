@@ -43,13 +43,13 @@ export default function Projects() {
   const sampleProjects: Project[] = [
     {
       id: '1',
-      title: 'BABA OPTION',
-      description: 'eztross/ Binary Option 관련 브랜드 사이트',
+      title: '바바옵션',
+      description: '이지트로스/ 옵션 관련 브랜드 사이트',
       content: 'Binary Option과 관련된 브랜드 사이트로, Next.js와 Node.js를 활용하여 구축했습니다. 반응형 디자인과 현대적인 UI/UX를 적용하여 사용자 경험을 향상시켰습니다.',
       technologies: ['Next.js', 'Node.js', 'HTML5', 'CSS 3', 'SCSS'],
       images: ['/images/placeholder.svg'],
       githubUrl: '',
-      liveUrl: 'https://www.babaoption.com/en/main',
+      liveUrl: '',//https://www.babaoption.com/en/main
       featured: true,
       category: 'web',
       startDate: '2025-01-01',
@@ -61,25 +61,25 @@ export default function Projects() {
     {
       id: '2',
       title: 'CRM (입출금 관리 시스템)',
-      description: 'babaoption/ eztross/ Binary Option 관련 CRM 사이트',
+      description: '바바옵션/ 이지트로스/ 옵션 관련 CRM 사이트',
       content: 'Binary Option 플랫폼에 필요한 CRM 사이트로 입출금 관련 업무를 관리합니다. Svelte와 Web Components를 활용하여 모던한 관리자 인터페이스를 구현했습니다.',
       technologies: ['HTML5', 'Svelte', 'Web Components', 'JavaScript', 'Go'],
       images: ['/images/placeholder.svg'],
       githubUrl: '',
-      liveUrl: 'https://www.babaoption.com/userpage/login',
+      liveUrl: '',//https://www.babaoption.com/userpage/login
       featured: true,
       category: 'web',
       startDate: '2023-03-01',
       endDate: '2024-12-31',
       status: 'in-progress',
-      participants: '팀 프로젝트',
+      participants: '팀 프로젝트(회사)',
       role: '퍼블리싱 및 프론트엔드 개발'
     },
     {
       id: '3',
-      title: 'eztross (Binary Option)',
+      title: '이지트로스 (옵션)',
       description: '코인 또는 통화로 게임을 할 수 있는 WTS',
-      content: 'Binary Option을 통해 코인 또는 통화로 게임을 할 수 있는 웹 트레이딩 시스템입니다. PixiJS를 활용한 인터랙티브한 게임 요소와 Svelte를 통한 상태 관리를 구현했습니다.',
+      content: '옵션을 통해 코인 또는 통화로 게임을 할 수 있는 웹 트레이딩 시스템입니다. PixiJS를 활용한 인터랙티브한 게임 요소와 Svelte를 통한 상태 관리를 구현했습니다.',
       technologies: ['HTML5', 'PixiJS', 'JavaScript'],
       images: ['/images/placeholder.svg'],
       githubUrl: '',
@@ -89,7 +89,7 @@ export default function Projects() {
       startDate: '2021-05-01',
       endDate: '2024-12-31',
       status: 'completed',
-      participants: '팀팀 프로젝트',
+      participants: '팀 프로젝트(회사)',
       role: '퍼블리싱 및 프론트엔드 개발'
     },
     {

@@ -8,9 +8,14 @@ const connectDB = async () => {
       : process.env.MONGODB_URI || 'mongodb://localhost:27017/portfolio';
     
     // MongoDB URI가 없으면 연결하지 않음
-    if (!uri || uri === 'mongodb://localhost:27017/portfolio') {
+    if (!uri) {
       console.log('⚠️ MongoDB URI가 설정되지 않았습니다. 데이터베이스 연결을 건너뜁니다.');
       return;
+    }
+    
+    // 기본 로컬 MongoDB URI 사용 시 경고 메시지
+    if (uri === 'mongodb://localhost:27017/portfolio') {
+      console.log('ℹ️ 로컬 MongoDB를 사용합니다. MongoDB가 실행 중인지 확인하세요.');
     }
     
     const options = {

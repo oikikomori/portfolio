@@ -2,10 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { FiEye, FiHeart, FiMessageSquare, FiCalendar, FiUser, FiTag, FiFileText, FiPlus, FiEdit, FiTrash2 } from 'react-icons/fi'
-import SearchBar from './SearchBar'
-import PostForm from './PostForm'
+import { FiArrowLeft, FiEye, FiHeart, FiMessageSquare, FiCalendar, FiUser, FiTag, FiEdit, FiTrash2, FiPlus } from 'react-icons/fi'
 import Link from 'next/link'
+import SearchBar from '../../components/SearchBar'
 
 interface Post {
   _id: string
@@ -19,17 +18,19 @@ interface Post {
   likes: number
   comments: any[]
   createdAt: string
+  updatedAt: string
 }
 
-export default function Posts() {
+export default function PostsPage() {
   const [posts, setPosts] = useState<Post[]>([])
   const [filteredPosts, setFilteredPosts] = useState<Post[]>([])
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
   const [activeFilters, setActiveFilters] = useState<any>({})
   const [isLoading, setIsLoading] = useState(true)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
   const [showCreateForm, setShowCreateForm] = useState(false)
-  const [editingPost, setEditingPost] = useState<Post | null>(null)
 
   const categories = [
     { id: 'all', name: '전체' },
@@ -40,16 +41,16 @@ export default function Posts() {
   ]
 
   // API에서 포스트 데이터 가져오기
-  const fetchPosts = async () => {
+  const fetchPosts = async (page = 1, category = 'all', search = '') => {
     try {
       setIsLoading(true)
       const params = new URLSearchParams({
-        page: '1',
-        limit: '8'
+        page: page.toString(),
+        limit: '12'
       })
       
-      if (selectedCategory !== 'all') params.append('category', selectedCategory)
-      if (searchQuery) params.append('search', searchQuery)
+      if (category !== 'all') params.append('category', category)
+      if (search) params.append('search', search)
       
       const response = await fetch(`http://localhost:5000/api/posts?${params}`)
       const data = await response.json()
@@ -57,9 +58,11 @@ export default function Posts() {
       if (response.ok) {
         setPosts(data.posts)
         setFilteredPosts(data.posts)
+        setTotalPages(data.totalPages)
+        setCurrentPage(data.currentPage)
       } else {
         console.error('Failed to fetch posts:', data.message)
-        // 에러 시 빈 배열로 설정
+        // 에러 시 샘플 데이터 사용
         setPosts([])
         setFilteredPosts([])
       }
@@ -73,28 +76,12 @@ export default function Posts() {
   }
 
   useEffect(() => {
-    fetchPosts()
-  }, [selectedCategory, searchQuery])
+    fetchPosts(currentPage, selectedCategory, searchQuery)
+  }, [currentPage, selectedCategory, searchQuery])
 
   // 검색 및 필터링 로직
   useEffect(() => {
     let filtered = posts
-
-    // 카테고리 필터
-    if (selectedCategory !== 'all') {
-      filtered = filtered.filter(post => post.category === selectedCategory)
-    }
-
-    // 검색어 필터
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase()
-      filtered = filtered.filter(post => 
-        post.title.toLowerCase().includes(query) ||
-        post.content.toLowerCase().includes(query) ||
-        post.author.toLowerCase().includes(query) ||
-        post.tags.some(tag => tag.toLowerCase().includes(query))
-      )
-    }
 
     // 추가 필터들
     if (activeFilters.dateRange && activeFilters.dateRange !== 'all') {
@@ -118,46 +105,40 @@ export default function Posts() {
     }
 
     setFilteredPosts(filtered)
-  }, [posts, selectedCategory, searchQuery, activeFilters])
+  }, [posts, activeFilters])
 
   const handleSearch = (query: string) => {
     setSearchQuery(query)
+    setCurrentPage(1)
   }
 
   const handleFilterChange = (filters: any) => {
     setActiveFilters(filters)
   }
 
-  const handleSavePost = async (postData: any) => {
-    try {
-      const url = postData._id ? `http://localhost:5000/api/posts/${postData._id}` : 'http://localhost:5000/api/posts'
-      const method = postData._id ? 'PUT' : 'POST'
-      
-      const response = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(postData)
-      })
-      
-      if (response.ok) {
-        // 저장 성공 시 목록 새로고침
-        fetchPosts()
-        setShowCreateForm(false)
-        setEditingPost(null)
-      } else {
-        const data = await response.json()
-        alert('저장 실패: ' + data.message)
-      }
-    } catch (error) {
-      console.error('Error saving post:', error)
-      alert('저장 중 오류가 발생했습니다.')
-    }
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category)
+    setCurrentPage(1)
   }
 
-  const handleEditPost = (post: Post) => {
-    setEditingPost(post)
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('ko-KR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    })
+  }
+
+  const formatNumber = (num: number) => {
+    if (num >= 1000) {
+      return (num / 1000).toFixed(1) + 'k'
+    }
+    return num.toString()
   }
 
   const handleDeletePost = async (postId: string) => {
@@ -170,7 +151,7 @@ export default function Posts() {
 
       if (response.ok) {
         // 삭제 성공 시 목록 새로고침
-        fetchPosts()
+        fetchPosts(currentPage, selectedCategory, searchQuery)
       } else {
         const data = await response.json()
         alert('삭제 실패: ' + data.message)
@@ -189,33 +170,18 @@ export default function Posts() {
 
       if (response.ok) {
         // 좋아요 성공 시 목록 새로고침
-        fetchPosts()
+        fetchPosts(currentPage, selectedCategory, searchQuery)
       }
     } catch (error) {
       console.error('Error liking post:', error)
     }
   }
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })
-  }
-
-  const formatNumber = (num: number) => {
-    if (num >= 1000) {
-      return (num / 1000).toFixed(1) + 'k'
-    }
-    return num.toString()
-  }
-
   if (isLoading) {
     return (
-      <section id="posts" className="section-padding bg-gray-50 dark:bg-dark-800">
-        <div className="container-custom">
-          <div className="text-center mb-16">
+      <div className="min-h-screen bg-gray-50 dark:bg-dark-800">
+        <div className="container-custom py-16">
+          <div className="text-center">
             <div className="inline-block">
               <div className="w-16 h-16 mx-auto mb-4 relative">
                 <div className="absolute inset-0 border-4 border-primary-200 dark:border-primary-800 rounded-full"></div>
@@ -232,36 +198,45 @@ export default function Posts() {
             </div>
           </div>
         </div>
-      </section>
+      </div>
     )
   }
 
   return (
-    <section id="posts" className="section-padding bg-gray-50 dark:bg-dark-800">
-      <div className="container-custom">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            <span className="text-gradient">게시판</span>에서 정보를 공유합니다
-          </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            개발 과정에서 배운 점들과 새로운 기술에 대한 정보를 공유합니다.
-            함께 성장하고 지식을 나누는 공간입니다.
-          </p>
-        </motion.div>
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-800">
+      {/* 헤더 */}
+      <div className="bg-white dark:bg-dark-900 shadow-sm">
+        <div className="container-custom py-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <Link 
+                href="/"
+                className="flex items-center text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+              >
+                <FiArrowLeft size={20} className="mr-2" />
+                홈으로
+              </Link>
+              <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
+                게시판
+              </h1>
+            </div>
+            <button
+              onClick={() => setShowCreateForm(true)}
+              className="btn-primary inline-flex items-center space-x-2"
+            >
+              <FiPlus size={20} />
+              <span>글쓰기</span>
+            </button>
+          </div>
+        </div>
+      </div>
 
+      <div className="container-custom py-8">
         {/* 검색 및 필터 */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="mb-12"
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8"
         >
           <SearchBar
             onSearch={handleSearch}
@@ -275,15 +250,13 @@ export default function Posts() {
         {/* 카테고리 필터 */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="flex flex-wrap justify-center gap-4 mb-12"
+          animate={{ opacity: 1, y: 0 }}
+          className="flex flex-wrap justify-center gap-4 mb-8"
         >
           {categories.map((category) => (
             <button
               key={category.id}
-              onClick={() => setSelectedCategory(category.id)}
+              onClick={() => handleCategoryChange(category.id)}
               className={`px-6 py-2 rounded-full font-medium transition-all duration-200 ${
                 selectedCategory === category.id
                   ? 'bg-primary-600 text-white shadow-lg'
@@ -311,34 +284,51 @@ export default function Posts() {
 
         {/* 포스트 그리드 */}
         {filteredPosts.length > 0 ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
             {filteredPosts.map((post, index) => (
               <motion.div
                 key={post._id}
                 initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: index * 0.1 }}
-                viewport={{ once: true }}
                 className="card overflow-hidden group hover:shadow-xl transition-all duration-300"
               >
                 {/* 포스트 헤더 */}
                 <div className="p-6">
-                  <div className="flex items-center gap-2 mb-3">
-                    {post.featured && (
-                      <span className="px-2 py-1 bg-primary-600 text-white text-xs rounded-full font-medium">
-                        Featured
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      {post.featured && (
+                        <span className="px-2 py-1 bg-primary-600 text-white text-xs rounded-full font-medium">
+                          Featured
+                        </span>
+                      )}
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        post.category === 'tech' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400' :
+                        post.category === 'project' ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400' :
+                        post.category === 'update' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400' :
+                        'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400'
+                      }`}>
+                        {post.category === 'tech' ? '기술' :
+                         post.category === 'project' ? '프로젝트' :
+                         post.category === 'update' ? '업데이트' : '일반'}
                       </span>
-                    )}
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      post.category === 'tech' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400' :
-                      post.category === 'project' ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400' :
-                      post.category === 'update' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400' :
-                      'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400'
-                    }`}>
-                      {post.category === 'tech' ? '기술' :
-                       post.category === 'project' ? '프로젝트' :
-                       post.category === 'update' ? '업데이트' : '일반'}
-                    </span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() => {/* 수정 기능 */}}
+                        className="p-1 text-gray-400 hover:text-primary-600 transition-colors"
+                        title="수정"
+                      >
+                        <FiEdit size={16} />
+                      </button>
+                      <button
+                        onClick={() => handleDeletePost(post._id)}
+                        className="p-1 text-gray-400 hover:text-red-600 transition-colors"
+                        title="삭제"
+                      >
+                        <FiTrash2 size={16} />
+                      </button>
+                    </div>
                   </div>
 
                   <h3 className="text-xl font-bold mb-3 text-gray-800 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200 line-clamp-2">
@@ -398,22 +388,6 @@ export default function Posts() {
                         <span>{formatNumber(post.comments.length)}</span>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <button
-                        onClick={() => handleEditPost(post)}
-                        className="p-1 text-gray-400 hover:text-primary-600 transition-colors"
-                        title="수정"
-                      >
-                        <FiEdit size={14} />
-                      </button>
-                      <button
-                        onClick={() => handleDeletePost(post._id)}
-                        className="p-1 text-gray-400 hover:text-red-600 transition-colors"
-                        title="삭제"
-                      >
-                        <FiTrash2 size={14} />
-                      </button>
-                    </div>
                   </div>
                 </div>
 
@@ -436,7 +410,7 @@ export default function Posts() {
             className="text-center py-16"
           >
             <div className="text-gray-400 dark:text-gray-500 mb-4">
-              <FiFileText size={64} className="mx-auto" />
+              <FiMessageSquare size={64} className="mx-auto" />
             </div>
             <h3 className="text-xl font-semibold text-gray-600 dark:text-gray-400 mb-2">
               게시글을 찾을 수 없습니다
@@ -447,43 +421,45 @@ export default function Posts() {
           </motion.div>
         )}
 
-        {/* 액션 버튼들 */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mt-16 space-y-4"
-        >
-          <div className="flex justify-center space-x-4">
+        {/* 페이지네이션 */}
+        {totalPages > 1 && (
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex justify-center space-x-2"
+          >
             <button
-              onClick={() => setShowCreateForm(true)}
-              className="btn-primary inline-flex items-center space-x-2"
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="px-4 py-2 rounded-lg bg-white dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-600 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <FiPlus size={20} />
-              <span>새 글 작성</span>
+              이전
             </button>
-            <Link
-              href="/posts"
-              className="btn-outline inline-flex items-center space-x-2"
+            
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => handlePageChange(page)}
+                className={`px-4 py-2 rounded-lg ${
+                  currentPage === page
+                    ? 'bg-primary-600 text-white'
+                    : 'bg-white dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-600'
+                }`}
+              >
+                {page}
+              </button>
+            ))}
+            
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 rounded-lg bg-white dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-600 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <span>전체 게시판 보기</span>
-              <FiMessageSquare size={20} />
-            </Link>
-          </div>
-        </motion.div>
+              다음
+            </button>
+          </motion.div>
+        )}
       </div>
-
-      {/* PostForm 모달 */}
-      <PostForm
-        isOpen={showCreateForm || !!editingPost}
-        onClose={() => {
-          setShowCreateForm(false)
-          setEditingPost(null)
-        }}
-        post={editingPost}
-        onSave={handleSavePost}
-      />
-    </section>
+    </div>
   )
 }

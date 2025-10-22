@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FiMenu, FiX, FiSun, FiMoon, FiSearch, FiSettings } from 'react-icons/fi'
+import { FiMenu, FiX, FiSun, FiMoon, FiSearch, FiSettings, FiMessageSquare } from 'react-icons/fi'
 import SearchBar from './SearchBar'
 import AdminPanel from './AdminPanel'
+import AIMessenger from './AIMessenger'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -12,6 +13,7 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [isAdminPanelOpen, setIsAdminPanelOpen] = useState(false)
+  const [isAIMessengerOpen, setIsAIMessengerOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -113,6 +115,20 @@ export default function Header() {
 
             {/* 우측 버튼들 */}
             <div className="flex items-center space-x-4">
+              {/* AI 메신저 버튼 */}
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => setIsAIMessengerOpen(!isAIMessengerOpen)}
+                className="p-2 text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors relative"
+                title="AI 어시스턴트"
+              >
+                <FiMessageSquare size={20} />
+                {!isAIMessengerOpen && (
+                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                )}
+              </motion.button>
+
               {/* 검색 버튼 */}
               <motion.button
                 whileHover={{ scale: 1.1 }}
@@ -207,6 +223,12 @@ export default function Header() {
       <AdminPanel
         isOpen={isAdminPanelOpen}
         onClose={() => setIsAdminPanelOpen(false)}
+      />
+
+      {/* AI 메신저 */}
+      <AIMessenger
+        isOpen={isAIMessengerOpen}
+        onClose={() => setIsAIMessengerOpen(false)}
       />
     </>
   )
