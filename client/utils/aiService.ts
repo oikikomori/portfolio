@@ -7,6 +7,9 @@ export interface ChatMessage {
   timestamp: Date
   aiFeatures?: {
     tone?: string
+    emotion?: string
+    intent?: string
+    confidence?: number
     translation?: string
     suggestions?: string[]
   }
@@ -17,6 +20,11 @@ export interface AIResponse {
   response?: string
   error?: string
   tone?: string
+  emotion?: string
+  intent?: string
+  confidence?: number
+  sessionId?: string
+  responseTime?: number
 }
 
 export interface TextImprovementResponse {
