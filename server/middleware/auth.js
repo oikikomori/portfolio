@@ -1,7 +1,6 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const { supabase } = require('../config/supabase');
 
-// JWT 토큰 검증 미들웨어
+// Supabase Auth 토큰 검증 미들웨어
 const authenticateToken = async (req, res, next) => {
   try {
     const authHeader = req.headers['authorization'];
@@ -13,29 +12,51 @@ const authenticateToken = async (req, res, next) => {
       });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.userId).select('-password');
+    // Supabase Auth로 토큰 검증
+    const { data: { user }, error } = await supabase.auth.getUser(token);
     
-    if (!user) {
+    if (error || !user) {
       return res.status(401).json({ 
         error: '유효하지 않은 토큰입니다.' 
       });
     }
 
-    req.user = user;
+    // 프로필 정보 가져오기
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', user.id)
+      .single();
+
+    if (profileError || !profile) {
+      return res.status(401).json({ 
+        error: '사용자 프로필을 찾을 수 없습니다.' 
+      });
+    }
+
+    req.user = {
+      id: profile.id,
+      username: profile.username,
+      email: user.email,
+      role: profile.role,
+      profile: {
+        firstName: profile.first_name,
+        lastName: profile.last_name,
+        avatar: profile.avatar,
+        bio: profile.bio,
+        website: profile.website,
+        location: profile.location
+      },
+      social: {
+        github: profile.github,
+        linkedin: profile.linkedin,
+        twitter: profile.twitter,
+        instagram: profile.instagram
+      }
+    };
+
     next();
   } catch (error) {
-    if (error.name === 'TokenExpiredError') {
-      return res.status(401).json({ 
-        error: '토큰이 만료되었습니다.' 
-      });
-    }
-    if (error.name === 'JsonWebTokenError') {
-      return res.status(401).json({ 
-        error: '유효하지 않은 토큰입니다.' 
-      });
-    }
-    
     console.error('토큰 검증 오류:', error);
     return res.status(500).json({ 
       error: '토큰 검증 중 오류가 발생했습니다.' 
@@ -75,10 +96,39 @@ const optionalAuth = async (req, res, next) => {
 
     if (token) {
       try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findById(decoded.userId).select('-password');
-        if (user) {
-          req.user = user;
+        // Supabase Auth로 토큰 검증
+        const { data: { user }, error } = await supabase.auth.getUser(token);
+        
+        if (!error && user) {
+          // 프로필 정보 가져오기
+          const { data: profile, error: profileError } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', user.id)
+            .single();
+
+          if (!profileError && profile) {
+            req.user = {
+              id: profile.id,
+              username: profile.username,
+              email: user.email,
+              role: profile.role,
+              profile: {
+                firstName: profile.first_name,
+                lastName: profile.last_name,
+                avatar: profile.avatar,
+                bio: profile.bio,
+                website: profile.website,
+                location: profile.location
+              },
+              social: {
+                github: profile.github,
+                linkedin: profile.linkedin,
+                twitter: profile.twitter,
+                instagram: profile.instagram
+              }
+            };
+          }
         }
       } catch (error) {
         // 토큰이 유효하지 않아도 계속 진행

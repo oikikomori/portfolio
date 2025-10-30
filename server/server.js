@@ -6,8 +6,8 @@ const path = require('path');
 const fs = require('fs');
 require('dotenv').config();
 
-// 데이터베이스 연결
-const connectDB = require('./config/db');
+// Supabase 연결
+const { testConnection } = require('./config/supabase');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -111,12 +111,12 @@ app.get('/api/test-email-config', async (req, res) => {
   }
 });
 
-// 라우트
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/projects', require('./routes/projects'));
-app.use('/api/posts', require('./routes/posts'));
-app.use('/api/contact', require('./routes/contact'));
-app.use('/api/ai', require('./routes/ai'));
+// 라우트 (Supabase 버전)
+app.use('/api/auth', require('./routes/auth-supabase'));
+app.use('/api/projects', require('./routes/projects-supabase'));
+app.use('/api/posts', require('./routes/posts-supabase'));
+app.use('/api/contact', require('./routes/contact-supabase'));
+app.use('/api/ai', require('./routes/ai-supabase'));
 
 // 기본 라우트
 app.get('/', (req, res) => {
@@ -162,16 +162,16 @@ app.use('*', (req, res) => {
 // 서버 시작
 const startServer = async () => {
   try {
-    // 데이터베이스 연결 (실패해도 서버는 계속 실행)
+    // Supabase 연결 테스트
     try {
-      const dbResult = await connectDB();
-      if (dbResult !== undefined) {
-        console.log('✅ MongoDB에 연결되었습니다.');
+      const isConnected = await testConnection();
+      if (isConnected) {
+        console.log('✅ Supabase에 연결되었습니다.');
       } else {
-        console.log('ℹ️ MongoDB 연결을 건너뛰었습니다. 샘플 데이터를 사용합니다.');
+        console.log('ℹ️ Supabase 연결을 건너뛰었습니다. 환경변수를 확인해주세요.');
       }
     } catch (dbError) {
-      console.error('⚠️ MongoDB 연결 실패, 서버는 계속 실행됩니다:', dbError.message);
+      console.error('⚠️ Supabase 연결 실패, 서버는 계속 실행됩니다:', dbError.message);
     }
     
     app.listen(PORT, () => {
