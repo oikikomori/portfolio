@@ -62,9 +62,11 @@ export default function Contact() {
         
         // 메일 전송 성공/실패에 따른 알림
         if (result.emailSent) {
-          console.log('메시지와 메일이 성공적으로 전송되었습니다.')
-        } else {
-          console.warn('메시지는 저장되었지만 메일 전송에 실패했습니다:', result.emailError)
+          console.log('✅ 메시지와 메일이 성공적으로 전송되었습니다.')
+        } else if (result.emailError) {
+          // 이메일 전송 실패는 경고로만 표시 (메시지는 성공적으로 저장됨)
+          console.warn('⚠️ 메시지는 저장되었지만 메일 전송에 실패했습니다:', result.emailError)
+          // 사용자에게는 성공 메시지만 표시 (이메일 실패는 개발자 콘솔에만 표시)
         }
       } else {
         throw new Error(result.message || '메시지 전송에 실패했습니다.')

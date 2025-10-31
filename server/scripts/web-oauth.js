@@ -12,11 +12,16 @@ async function generateRefreshTokenWeb() {
     return;
   }
 
+  // 로컬 개발용: localhost로 redirect URI 설정
+  const REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI || 'http://localhost:3001/auth/callback';
+  
   const oauth2Client = new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
-    'https://kuuuma.com/auth/callback'
+    REDIRECT_URI
   );
+  
+  console.log(`📍 사용 중인 Redirect URI: ${REDIRECT_URI}`);
 
   const app = express();
   const PORT = 3001;
