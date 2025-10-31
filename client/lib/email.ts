@@ -24,8 +24,13 @@ function createOAuth2Client(): OAuth2Client {
 // 액세스 토큰 가져오기
 async function getAccessToken(): Promise<string> {
   try {
+    console.log('OAuth2 클라이언트 생성 중...');
     const oauth2Client = createOAuth2Client();
+    
+    console.log('액세스 토큰 요청 중...');
     const { token } = await oauth2Client.getAccessToken();
+    
+    console.log('액세스 토큰 응답:', token ? '토큰 획득 성공' : '토큰 없음');
     
     if (!token) {
       throw new Error('액세스 토큰을 가져올 수 없습니다.');
@@ -82,19 +87,53 @@ async function createTransporter() {
   validateOAuthConfig();
   
   try {
+    console.log('OAuth2 설정 확인 중...');
     const accessToken = await getAccessToken();
     
-    return nodemailer.createTransport({
+    if (!accessToken) {
+      throw new Error('액세스 토큰을 가져올 수 없습니다.');
+    }
+    
+    console.log('액세스 토큰 획득 성공:', accessToken ? '토큰 존재' : '토큰 없음');
+    
+    const authConfig = {
+      type: 'OAuth2',
+      user: process.env.SMTP_USER,
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      refreshToken: process.env.GOOGLE_REFRESH_TOKEN,
+      accessToken: accessToken
+    };
+    
+    console.log('OAuth2 설정:', {
+      user: authConfig.user,
+      clientId: authConfig.clientId ? `${authConfig.clientId.substring(0, 20)}...` : '없음',
+      refreshToken: authConfig.refreshToken ? '설정됨' : '없음',
+      accessToken: accessToken ? '설정됨' : '없음'
+    });
+    
+    // nodemailer OAuth2 설정 (명시적으로 모든 필드 포함)
+    const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
         type: 'OAuth2',
-        user: process.env.SMTP_USER,
-        clientId: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        refreshToken: process.env.GOOGLE_REFRESH_TOKEN,
-        accessToken: accessToken
+        user: authConfig.user!,
+        clientId: authConfig.clientId!,
+        clientSecret: authConfig.clientSecret!,
+        refreshToken: authConfig.refreshToken!,
+        accessToken: accessToken,
+        expires: 3600 // 토큰 만료 시간 (초)
       }
     });
+    
+    console.log('nodemailer transporter 생성 완료');
+    
+    // 연결 테스트 (OAuth2가 제대로 설정되었는지 확인)
+    console.log('transporter 연결 테스트 중...');
+    await transporter.verify();
+    console.log('✅ transporter 연결 테스트 성공 (OAuth2 인증 확인됨)');
+    
+    return transporter;
   } catch (error: any) {
     console.error('OAuth 2.0 전송기 생성 실패:', error);
     throw new Error(`이메일 전송기 생성에 실패했습니다: ${error.message}`);
