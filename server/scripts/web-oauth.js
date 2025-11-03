@@ -26,11 +26,14 @@ async function generateRefreshTokenWeb() {
   const app = express();
   const PORT = 3001;
 
-  // 인증 URL 생성
+  // 인증 URL 생성 - Gmail 전송에 필요한 전체 권한 요청
   const authUrl = oauth2Client.generateAuthUrl({
     access_type: 'offline',
-    scope: ['https://www.googleapis.com/auth/gmail.send'],
-    prompt: 'consent'
+    scope: [
+      'https://www.googleapis.com/auth/gmail.send',
+      'https://mail.google.com/' // 더 넓은 권한으로 변경
+    ],
+    prompt: 'consent' // 항상 동의 화면 표시 (새 refresh token 얻기 위해)
   });
 
   console.log('1️⃣ 다음 URL을 브라우저에서 열어주세요:');

@@ -88,54 +88,53 @@ async function createTransporter() {
   
   try {
     console.log('OAuth2 설정 확인 중...');
-    const accessToken = await getAccessToken();
+    
+    // 먼저 액세스 토큰 가져오기
+    const oauth2Client = createOAuth2Client();
+    console.log('액세스 토큰 요청 중...');
+    const { token: accessToken } = await oauth2Client.getAccessToken();
     
     if (!accessToken) {
       throw new Error('액세스 토큰을 가져올 수 없습니다.');
     }
     
-    console.log('액세스 토큰 획득 성공:', accessToken ? '토큰 존재' : '토큰 없음');
+    console.log('액세스 토큰 획득 성공');
+    console.log('액세스 토큰 (처음 20자):', accessToken.substring(0, 20));
     
-    const authConfig = {
-      type: 'OAuth2',
+    // 환경 변수 확인
+    console.log('환경 변수 확인:', {
       user: process.env.SMTP_USER,
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      refreshToken: process.env.GOOGLE_REFRESH_TOKEN,
-      accessToken: accessToken
-    };
-    
-    console.log('OAuth2 설정:', {
-      user: authConfig.user,
-      clientId: authConfig.clientId ? `${authConfig.clientId.substring(0, 20)}...` : '없음',
-      refreshToken: authConfig.refreshToken ? '설정됨' : '없음',
-      accessToken: accessToken ? '설정됨' : '없음'
+      clientId: process.env.GOOGLE_CLIENT_ID ? `${process.env.GOOGLE_CLIENT_ID.substring(0, 20)}...` : '없음',
+      refreshToken: process.env.GOOGLE_REFRESH_TOKEN ? '설정됨' : '없음'
     });
     
-    // nodemailer OAuth2 설정 (명시적으로 모든 필드 포함)
+    // nodemailer OAuth2 설정
+    // accessToken은 문자열로 직접 전달 (nodemailer가 자동 갱신)
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
         type: 'OAuth2',
-        user: authConfig.user!,
-        clientId: authConfig.clientId!,
-        clientSecret: authConfig.clientSecret!,
-        refreshToken: authConfig.refreshToken!,
+        user: process.env.SMTP_USER!,
+        clientId: process.env.GOOGLE_CLIENT_ID!,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+        refreshToken: process.env.GOOGLE_REFRESH_TOKEN!,
         accessToken: accessToken,
-        expires: 3600 // 토큰 만료 시간 (초)
+        expires: 3600
       }
     });
     
     console.log('nodemailer transporter 생성 완료');
-    
-    // 연결 테스트 (OAuth2가 제대로 설정되었는지 확인)
-    console.log('transporter 연결 테스트 중...');
-    await transporter.verify();
-    console.log('✅ transporter 연결 테스트 성공 (OAuth2 인증 확인됨)');
+    console.log('transporter 설정 완료 (실제 전송에서 인증 확인)');
     
     return transporter;
   } catch (error: any) {
     console.error('OAuth 2.0 전송기 생성 실패:', error);
+    
+    // 더 자세한 오류 정보 출력
+    if (error.message?.includes('invalid_grant')) {
+      throw new Error('Refresh Token이 만료되었거나 무효합니다. 새로 발급받아주세요.');
+    }
+    
     throw new Error(`이메일 전송기 생성에 실패했습니다: ${error.message}`);
   }
 }
@@ -157,9 +156,9 @@ export async function sendContactEmail(contactData: {
     const transporter = await createTransporter();
     console.log('이메일 전송기 생성 완료');
 
-    // 전송기 연결 테스트
-    await transporter.verify();
-    console.log('전송기 연결 테스트 성공');
+    // verify()는 OAuth2와 호환성 문제가 있을 수 있으므로 실제 전송에서 확인
+    // await transporter.verify();
+    // console.log('전송기 연결 테스트 성공');
 
     const smtpUser = process.env.SMTP_USER || '';
 
