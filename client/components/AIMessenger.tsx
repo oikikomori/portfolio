@@ -76,7 +76,7 @@ export default function AIMessenger({ isOpen, onClose }: AIMessengerProps) {
   const loadConversationHistory = async (sessionId: string) => {
     try {
       setIsLoadingHistory(true)
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/ai/conversation/${sessionId}`)
+      const response = await fetch(`/api/ai/conversation/${sessionId}`)
       const data = await response.json()
       
       if (data.success && data.messages) {
@@ -127,8 +127,8 @@ export default function AIMessenger({ isOpen, onClose }: AIMessengerProps) {
     setIsTyping(true)
 
     try {
-      // 데이터베이스 연동 AI API 호출
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/ai/chat`, {
+      // 데이터베이스 연동 AI API 호출 (Next.js API Route 사용)
+      const response = await fetch('/api/ai/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
