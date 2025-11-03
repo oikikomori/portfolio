@@ -16,7 +16,7 @@ function createOAuth2Client(): OAuth2Client {
     refresh_token: process.env.GOOGLE_REFRESH_TOKEN
   });
 
-  // oauth2Client.timeout = 30000; // 30초
+  oauth2Client.timeout = 30000; // 30초
 
   return oauth2Client;
 }
