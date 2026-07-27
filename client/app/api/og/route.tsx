@@ -5,10 +5,13 @@ export const runtime = 'edge'
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
-  const title = searchParams.get('title') ?? 'Portfolio'
-  const sub = searchParams.get('sub') ?? ''
+  // Unbounded query params here meant a very long ?title= could force this
+  // edge function into laying out a large amount of text on every request —
+  // clamp to a sane length for a social-preview title/subtitle.
+  const title = (searchParams.get('title') ?? 'Portfolio').slice(0, 200)
+  const sub = (searchParams.get('sub') ?? '').slice(0, 100)
   // 'category' param takes precedence over 'sub' for backward-compat
-  const category = searchParams.get('category') || sub
+  const category = (searchParams.get('category') || sub).slice(0, 100)
 
   // Pick a badge color based on category
   const categoryColors: Record<string, string> = {
