@@ -2,6 +2,19 @@ import nodemailer from 'nodemailer'
 import { google } from 'googleapis'
 import { OAuth2Client } from 'google-auth-library'
 
+// title/excerpt come from post content, which today is only ever
+// admin-authored — but they're interpolated directly into this HTML email
+// template, so escape them anyway as defense in depth (same fix already
+// applied to the contact-form emails in lib/email.ts).
+function escapeHtml(input: string): string {
+  return input
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
 function createOAuth2Client(): OAuth2Client {
   const oauth2Client = new OAuth2Client(
     process.env.GOOGLE_CLIENT_ID,
@@ -46,6 +59,8 @@ export async function sendNewsletterEmail({
 }) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://kuuuma.com'
   const unsubscribeUrl = `${siteUrl}/api/newsletter/unsubscribe?token=${unsubscribeToken}`
+  const safeTitle = escapeHtml(title)
+  const safeExcerpt = escapeHtml(excerpt)
 
   const transporter = await createTransporter()
 
@@ -65,7 +80,7 @@ export async function sendNewsletterEmail({
     <div style="background-color:#171717;border:1px solid #262626;border-radius:12px;overflow:hidden;">
       <div style="background:linear-gradient(135deg,#0e7490,#0891b2);padding:32px 24px;">
         <p style="margin:0 0 8px;color:#cffafe;font-size:13px;font-family:monospace;">새 글 알림</p>
-        <h1 style="margin:0;color:#ffffff;font-size:22px;line-height:1.4;">${title}</h1>
+        <h1 style="margin:0;color:#ffffff;font-size:22px;line-height:1.4;">${safeTitle}</h1>
       </div>
 
       <div style="padding:24px;">
@@ -75,7 +90,7 @@ export async function sendNewsletterEmail({
 
         <div style="background-color:#262626;border-radius:8px;padding:16px;margin:0 0 24px;">
           <p style="margin:0;color:#d4d4d4;font-size:14px;line-height:1.7;">
-            ${excerpt}…
+            ${safeExcerpt}…
           </p>
         </div>
 
