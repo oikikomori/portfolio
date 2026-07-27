@@ -9,6 +9,23 @@ import type { Achievement } from '@/lib/achievements'
 import { useLanguage } from '@/lib/LanguageContext'
 import SpaceAtmosphere from '@/components/SpaceAtmosphere'
 
+const SESSION_ID_KEY = 'typingGameSessionId'
+
+// Sent so the API can cap submissions per session per day (matching the
+// other game score routes) — without it, the leaderboard had no
+// throttling at all.
+function getOrCreateSessionId(): string {
+  if (typeof window === 'undefined') return ''
+  const existing = window.sessionStorage.getItem(SESSION_ID_KEY)
+  if (existing) return existing
+  const id =
+    typeof crypto !== 'undefined' && crypto.randomUUID
+      ? crypto.randomUUID().replace(/-/g, '').slice(0, 32)
+      : Math.random().toString(36).slice(2, 34)
+  window.sessionStorage.setItem(SESSION_ID_KEY, id)
+  return id
+}
+
 const snippets = [
   { id: 1, code: `const greet = (name: string) => \`Hello, \${name}!\`` },
   { id: 2, code: `const sum = (a: number, b: number): number => a + b` },
@@ -153,7 +170,12 @@ export default function TypingGamePage() {
       await fetch('/api/typing-game/scores', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ player_name: playerName.trim(), wpm: finalWpm, accuracy }),
+        body: JSON.stringify({
+          player_name: playerName.trim(),
+          wpm: finalWpm,
+          accuracy,
+          sessionId: getOrCreateSessionId(),
+        }),
       })
       setSaveStatus('saved')
       fetchScores()
