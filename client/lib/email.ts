@@ -3,6 +3,19 @@ import nodemailer from 'nodemailer';
 import { google } from 'googleapis';
 import { OAuth2Client } from 'google-auth-library';
 
+// Contact form fields are interpolated directly into HTML email bodies
+// below — without escaping, a visitor could submit a message/name
+// containing HTML/links that renders live in the recipient's email
+// client (both the admin notification and the visitor's own auto-reply).
+function escapeHtml(input: string): string {
+  return input
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 // OAuth 2.0 클라이언트 생성
 function createOAuth2Client(): OAuth2Client {
   const oauth2Client = new OAuth2Client(
@@ -136,6 +149,14 @@ export async function sendContactEmail(contactData: {
 
     const smtpUser = process.env.SMTP_USER || '';
 
+    // Escape before interpolating into the HTML templates below (see
+    // escapeHtml's comment) — mailto: hrefs use the raw, unescaped values
+    // since those aren't rendered as HTML.
+    const safeName = escapeHtml(contactData.name);
+    const safeSubject = escapeHtml(contactData.subject);
+    const safeEmail = escapeHtml(contactData.email);
+    const safeMessageHtml = escapeHtml(contactData.message).replace(/\n/g, '<br>');
+
     // 관리자에게 보낼 메일
     const adminMailOptions = {
       from: smtpUser,
@@ -149,23 +170,23 @@ export async function sendContactEmail(contactData: {
           
           <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <h3 style="color: #555; margin-top: 0;">발신자 정보</h3>
-            <p><strong>이름:</strong> ${contactData.name}</p>
-            <p><strong>이메일:</strong> ${contactData.email}</p>
-            <p><strong>제목:</strong> ${contactData.subject}</p>
+            <p><strong>이름:</strong> ${safeName}</p>
+            <p><strong>이메일:</strong> ${safeEmail}</p>
+            <p><strong>제목:</strong> ${safeSubject}</p>
             <p><strong>전송 시간:</strong> ${new Date().toLocaleString('ko-KR')}</p>
           </div>
-          
+
           <div style="background-color: #ffffff; padding: 20px; border: 1px solid #e9ecef; border-radius: 8px;">
             <h3 style="color: #555; margin-top: 0;">메시지 내용</h3>
-            <div style="white-space: pre-wrap; line-height: 1.6;">${contactData.message.replace(/\n/g, '<br>')}</div>
+            <div style="white-space: pre-wrap; line-height: 1.6;">${safeMessageHtml}</div>
           </div>
           
           <div style="margin-top: 20px; padding: 15px; background-color: #e3f2fd; border-radius: 8px;">
             <p style="margin: 0; color: #1976d2;">
               <strong>답변하기:</strong> 
-              <a href="mailto:${contactData.email}?subject=Re: ${contactData.subject}" 
+              <a href="mailto:${contactData.email}?subject=Re: ${encodeURIComponent(contactData.subject)}"
                  style="color: #1976d2; text-decoration: none;">
-                ${contactData.email}
+                ${safeEmail}
               </a>
             </p>
           </div>
@@ -184,16 +205,16 @@ export async function sendContactEmail(contactData: {
             메시지 전송 완료
           </h2>
           
-          <p>안녕하세요, <strong>${contactData.name}</strong>님!</p>
-          
+          <p>안녕하세요, <strong>${safeName}</strong>님!</p>
+
           <p>포트폴리오 사이트를 통해 보내주신 메시지가 성공적으로 전송되었습니다.</p>
-          
+
           <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <h3 style="color: #555; margin-top: 0;">전송된 메시지</h3>
-            <p><strong>제목:</strong> ${contactData.subject}</p>
+            <p><strong>제목:</strong> ${safeSubject}</p>
             <p><strong>내용:</strong></p>
             <div style="white-space: pre-wrap; line-height: 1.6; background-color: #ffffff; padding: 15px; border-radius: 4px; border: 1px solid #e9ecef;">
-              ${contactData.message.replace(/\n/g, '<br>')}
+              ${safeMessageHtml}
             </div>
           </div>
           
