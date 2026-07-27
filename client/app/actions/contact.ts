@@ -1,5 +1,6 @@
 'use server'
 
+import { headers } from 'next/headers'
 import { z } from 'zod'
 import { sendContactEmail } from '@/lib/email'
 import { dbQuery } from '@/lib/neon-server'
@@ -11,7 +12,38 @@ const schema = z.object({
   message: z.string().min(10).max(5000),
 })
 
+// This form sends a real email and writes to the DB on every submission —
+// unlike the AI chat endpoints in this codebase, it had no throttling at
+// all, so a script could spam-submit it indefinitely. 5/hour per IP is
+// generous for a real visitor but blocks trivial abuse.
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>()
+const RATE_LIMIT = 5
+const RATE_WINDOW_MS = 60 * 60 * 1000
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now()
+  const entry = rateLimitMap.get(ip)
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS })
+    return true
+  }
+  if (entry.count >= RATE_LIMIT) return false
+  entry.count++
+  return true
+}
+
 export async function submitContact(formData: FormData) {
+  const headerList = await headers()
+  const ip =
+    headerList.get('x-forwarded-for')?.split(',')[0]?.trim() ??
+    headerList.get('x-real-ip') ??
+    'unknown'
+  const userAgent = headerList.get('user-agent') ?? 'unknown'
+
+  if (!checkRateLimit(ip)) {
+    return { error: '요청이 너무 많습니다. 1시간 후에 다시 시도해주세요.' }
+  }
+
   const parsed = schema.safeParse({
     name: formData.get('name'),
     email: formData.get('email'),
@@ -33,7 +65,7 @@ export async function submitContact(formData: FormData) {
       `INSERT INTO contacts (name, email, subject, message, status, ip_address, user_agent)
        VALUES ($1, $2, $3, $4, 'unread', $5, $6)
        RETURNING id`,
-      [name, email, subject, message, 'server-action', 'server-action'],
+      [name, email, subject, message, ip, userAgent],
     )
     contactId = insertResult.rows[0]?.id
   } catch (err: unknown) {
