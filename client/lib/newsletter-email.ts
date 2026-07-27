@@ -1,19 +1,7 @@
 import nodemailer from 'nodemailer'
 import { google } from 'googleapis'
 import { OAuth2Client } from 'google-auth-library'
-
-// title/excerpt come from post content, which today is only ever
-// admin-authored — but they're interpolated directly into this HTML email
-// template, so escape them anyway as defense in depth (same fix already
-// applied to the contact-form emails in lib/email.ts).
-function escapeHtml(input: string): string {
-  return input
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;')
-}
+import { escapeHtml } from '@/lib/escapeHtml'
 
 function createOAuth2Client(): OAuth2Client {
   const oauth2Client = new OAuth2Client(

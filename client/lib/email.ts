@@ -2,19 +2,7 @@
 import nodemailer from 'nodemailer';
 import { google } from 'googleapis';
 import { OAuth2Client } from 'google-auth-library';
-
-// Contact form fields are interpolated directly into HTML email bodies
-// below — without escaping, a visitor could submit a message/name
-// containing HTML/links that renders live in the recipient's email
-// client (both the admin notification and the visitor's own auto-reply).
-function escapeHtml(input: string): string {
-  return input
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
+import { escapeHtml } from '@/lib/escapeHtml';
 
 // OAuth 2.0 클라이언트 생성
 function createOAuth2Client(): OAuth2Client {
