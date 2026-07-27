@@ -91,7 +91,10 @@ export default async function PostDetailPage({ params }: { params: Promise<{ id:
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        // Escape '<' so a post title/content containing the literal text
+        // "</script>" can't prematurely close this tag — JSON.stringify
+        // alone doesn't escape it, since it's not a JSON-syntax character.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
       <PostDetailClient />
     </>
