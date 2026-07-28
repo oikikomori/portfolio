@@ -288,7 +288,7 @@ const SAMPLE_PROJECTS: Project[] = [
     technologies: ['HTML5', 'CSS 3', 'PHP'],
     images: ['/images/kmuseum_1.jpg', '/images/kmuseum_2.jpg', '/images/kmuseum_3.jpg'],
     githubUrl: '',
-    liveUrl: '',
+    liveUrl: 'https://www.kmcaseoul.org/',
     featured: false,
     category: 'web',
     startDate: '2019-04-01',
