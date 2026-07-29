@@ -1,9 +1,16 @@
-const CACHE_NAME = 'portfolio-v4'
+const CACHE_NAME = 'portfolio-v5'
 const STATIC_ASSETS = [
   '/',
   '/site.webmanifest',
+  '/games',
   '/arcade',
   '/arcade-manifest.json',
+  '/tetris',
+  '/survive',
+  '/tower-defense',
+  '/typing-game',
+  '/lotto',
+  '/rpg',
 ]
 
 // A cache miss must still resolve to a real Response — respondWith() throws
@@ -78,12 +85,20 @@ self.addEventListener('fetch', (event) => {
 
   // Navigations (the page document itself) get a network-first strategy with
   // an actual offline page as the last resort, instead of an unhandled
-  // cache-miss resolving to undefined.
+  // cache-miss resolving to undefined. Successful navigations are also
+  // cached — beyond the STATIC_ASSETS precache list, this means any game
+  // or page a visitor opens once while online keeps working offline too.
   if (request.mode === 'navigate') {
     event.respondWith(
-      fetch(request).catch(() =>
-        caches.match(request).then((cached) => cached ?? caches.match('/').then((shell) => shell ?? offlineFallback()))
-      )
+      fetch(request)
+        .then((res) => {
+          const clone = res.clone()
+          caches.open(CACHE_NAME).then((cache) => cache.put(request, clone))
+          return res
+        })
+        .catch(() =>
+          caches.match(request).then((cached) => cached ?? caches.match('/').then((shell) => shell ?? offlineFallback()))
+        )
     )
     return
   }

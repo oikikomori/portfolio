@@ -17,7 +17,6 @@ import PostShareBar from '@/components/blog/PostShareBar'
 import CommentSection from '@/components/blog/CommentSection'
 import BookmarkButton from '@/components/blog/BookmarkButton'
 import { FiChevronDown, FiChevronUp, FiZap } from 'react-icons/fi'
-import { savePostOffline, removeOfflinePost, isPostSavedOffline } from '@/lib/offlineStorage'
 import SpaceAtmosphere from '@/components/SpaceAtmosphere'
 
 const API_BASE_URL = getApiBaseUrl()
@@ -84,7 +83,6 @@ export default function PostDetailClient() {
   const [summaryOpen, setSummaryOpen] = useState(false)
   const [summaryLoading, setSummaryLoading] = useState(false)
   const [summary, setSummary] = useState<string | null>(null)
-  const [isSavedOffline, setIsSavedOffline] = useState(false)
 
   const fetchPost = async () => {
     try {
@@ -142,7 +140,6 @@ export default function PostDetailClient() {
   useEffect(() => {
     if (postId) {
       fetchPost()
-      isPostSavedOffline(postId).then(setIsSavedOffline).catch(() => {})
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postId])
@@ -214,25 +211,6 @@ export default function PostDetailClient() {
     } catch (error) {
       console.error('Error deleting post:', error)
       toast.error(t.postDetail.deleteError)
-    }
-  }
-
-  const handleOfflineSave = async () => {
-    if (!post) return
-    if (isSavedOffline) {
-      await removeOfflinePost(post._id)
-      setIsSavedOffline(false)
-      toast.success(locale === 'en' ? 'Removed from offline saves' : '오프라인 저장이 해제되었습니다')
-    } else {
-      await savePostOffline({
-        id: post._id,
-        title: post.title,
-        content: post.content,
-        author: post.author,
-        createdAt: post.createdAt,
-      })
-      setIsSavedOffline(true)
-      toast.success(locale === 'en' ? 'Available to read offline' : '오프라인에서 읽을 수 있습니다')
     }
   }
 
@@ -341,13 +319,6 @@ export default function PostDetailClient() {
             </Link>
             <div className="flex items-center space-x-1">
               <button
-                onClick={handleOfflineSave}
-                className="p-2 text-neutral-500 hover:text-neutral-300 transition-colors"
-                title={isSavedOffline ? (locale === 'en' ? 'Saved' : '저장됨') : (locale === 'en' ? 'Save offline' : '오프라인 저장')}
-              >
-                {isSavedOffline ? (locale === 'en' ? '✓ Saved' : '✓ 저장됨') : (locale === 'en' ? '📥 Save offline' : '📥 오프라인 저장')}
-              </button>
-              <button
                 onClick={() => setShowEditForm(true)}
                 className="p-2 text-neutral-700 hover:text-neutral-400 transition-colors"
                 title={locale === 'en' ? 'Edit' : '수정'}
@@ -391,13 +362,6 @@ export default function PostDetailClient() {
               <div className="flex items-center gap-3 mb-4">
                 <PostShareBar title={post.title} />
                 <BookmarkButton postId={post._id} />
-                <button
-                  onClick={handleOfflineSave}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-400 hover:text-neutral-200 text-xs font-mono transition-colors"
-                  title={locale === 'en' ? 'Save offline' : '오프라인 저장'}
-                >
-                  {isSavedOffline ? (locale === 'en' ? '✓ Saved' : '✓ 저장됨') : (locale === 'en' ? '📥 Save' : '📥 저장')}
-                </button>
               </div>
 
               <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-neutral-600 mb-6">
