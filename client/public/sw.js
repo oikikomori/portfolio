@@ -1,16 +1,13 @@
-const CACHE_NAME = 'portfolio-v5'
+const CACHE_NAME = 'portfolio-v6'
+// Precached at install so these two are guaranteed available offline even
+// on a first visit to that specific page — every other game/page still
+// gets cached opportunistically by the navigate handler below once it's
+// been opened online at least once, just without the install-time guarantee.
 const STATIC_ASSETS = [
   '/',
   '/site.webmanifest',
-  '/games',
-  '/arcade',
-  '/arcade-manifest.json',
   '/tetris',
-  '/survive',
   '/tower-defense',
-  '/typing-game',
-  '/lotto',
-  '/rpg',
 ]
 
 // A cache miss must still resolve to a real Response — respondWith() throws
