@@ -3,6 +3,7 @@ import { Inter, Fraunces, Fira_Code } from 'next/font/google'
 import './globals.css'
 import Providers from '@/components/Providers'
 import ToastContainer from '@/components/Toast'
+import WebVitals from '@/components/WebVitals'
 import ChatbotWidgetClient from '@/components/ChatbotWidgetClient'
 import KuumaCompanionClient from '@/components/KuumaCompanionClient'
 import AmbientSoundtrackClient from '@/components/AmbientSoundtrackClient'
@@ -170,6 +171,7 @@ export default function RootLayout({
       <body className={`${inter.className} font-sans antialiased`}>
         <Providers>{children}</Providers>
         <ToastContainer />
+        <WebVitals />
         <ChatbotWidgetClient />
         <KuumaCompanionClient />
         <AmbientSoundtrackClient />
