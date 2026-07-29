@@ -5,6 +5,34 @@ import { sendContactEmail } from '@/lib/email'
 import { dbQuery } from '@/lib/neon-server'
 import { isAdminAuthorized } from '@/lib/adminAuth'
 
+// Contact.tsx posts here (not the server action in app/actions/contact.ts).
+// Rate limiting was added only to that unused action in 8b505d0, leaving this
+// route open to unlimited spam submissions (email + DB writes per request).
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>()
+const RATE_LIMIT = 5
+const RATE_WINDOW_MS = 60 * 60 * 1000
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now()
+  const entry = rateLimitMap.get(ip)
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS })
+    return true
+  }
+  if (entry.count >= RATE_LIMIT) return false
+  entry.count++
+  return true
+}
+
+function clientIp(request: Request): string {
+  const headers = request.headers
+  return (
+    headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
+    headers.get('x-real-ip') ??
+    'unknown'
+  )
+}
+
 export async function GET(request: NextRequest) {
   if (!(await isAdminAuthorized(request))) {
     return NextResponse.json({ success: false, error: '관리자 인증이 필요합니다.' }, { status: 401 })
@@ -55,6 +83,15 @@ export async function PATCH(request: NextRequest) {
 // a DB failure must NOT prevent the email from being sent.
 export async function POST(request: Request) {
   try {
+    const ip_address = clientIp(request)
+
+    if (!checkRateLimit(ip_address)) {
+      return NextResponse.json(
+        { message: '요청이 너무 많습니다. 1시간 후에 다시 시도해주세요.' },
+        { status: 429 },
+      )
+    }
+
     const body = await request.json()
 
     if (!body.name || !body.email || !body.subject || !body.message) {
@@ -64,9 +101,7 @@ export async function POST(request: Request) {
       )
     }
 
-    const headers = request.headers
-    const ip_address = headers.get('x-forwarded-for') || headers.get('x-real-ip') || 'unknown'
-    const user_agent = headers.get('user-agent') || 'unknown'
+    const user_agent = request.headers.get('user-agent') || 'unknown'
 
     // ── 1) DB 저장 (실패해도 아래 이메일 전송 계속 진행) ─────────────────
     let contactId: string | undefined
