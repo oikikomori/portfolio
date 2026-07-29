@@ -1,4 +1,4 @@
-const CACHE_NAME = 'portfolio-v6'
+const CACHE_NAME = 'portfolio-v7'
 // Precached at install so these two are guaranteed available offline even
 // on a first visit to that specific page — every other game/page still
 // gets cached opportunistically by the navigate handler below once it's
@@ -18,6 +18,17 @@ const STATIC_ASSETS = [
 // caches.match().
 function offlineFallback() {
   return new Response('Offline', { status: 503, statusText: 'Offline' })
+}
+
+// Never cache failed responses — cache-first handlers for /_next/static/
+// would otherwise serve a stale 404/502 forever, even when online, after a
+// transient deploy blip or CDN error.
+function maybeCache(request, response) {
+  if (response.ok) {
+    const clone = response.clone()
+    caches.open(CACHE_NAME).then((cache) => cache.put(request, clone))
+  }
+  return response
 }
 
 self.addEventListener('install', (event) => {
@@ -54,12 +65,7 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
       caches.match(request).then((cached) => {
         if (cached) return cached
-        return fetch(request)
-          .then((res) => {
-            const clone = res.clone()
-            caches.open(CACHE_NAME).then((cache) => cache.put(request, clone))
-            return res
-          })
+        return fetch(request).then((res) => maybeCache(request, res))
           .catch(() => caches.match(request).then((c) => c ?? offlineFallback()))
       })
     )
@@ -69,11 +75,7 @@ self.addEventListener('fetch', (event) => {
   if (request.destination === 'image' || request.destination === 'font') {
     event.respondWith(
       caches.match(request).then(cached => cached ?? fetch(request)
-        .then(res => {
-          const clone = res.clone()
-          caches.open(CACHE_NAME).then(cache => cache.put(request, clone))
-          return res
-        })
+        .then(res => maybeCache(request, res))
         .catch(() => offlineFallback())
       )
     )
@@ -88,11 +90,7 @@ self.addEventListener('fetch', (event) => {
   if (request.mode === 'navigate') {
     event.respondWith(
       fetch(request)
-        .then((res) => {
-          const clone = res.clone()
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, clone))
-          return res
-        })
+        .then((res) => maybeCache(request, res))
         .catch(() =>
           caches.match(request).then((cached) => cached ?? caches.match('/').then((shell) => shell ?? offlineFallback()))
         )
