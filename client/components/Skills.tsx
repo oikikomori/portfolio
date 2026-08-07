@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { useLanguage } from '@/lib/LanguageContext'
 import { portfolioViewport, maskReveal, lineReveal, staggerContainer, staggerItem } from '@/lib/portfolioMotion'
 import SkillRadar from '@/components/portfolio/SkillRadar'
+import type { SkillEntry } from '@/lib/notion'
 
 // `loading` matters here: without it, the dynamic import renders nothing
 // at all while its chunk is still in flight, so on a cold/uncached load
@@ -36,7 +37,7 @@ type SkillCategory = {
   skills: Skill[]
 }
 
-const SKILL_CATEGORIES: SkillCategory[] = [
+const DEFAULT_SKILL_CATEGORIES: SkillCategory[] = [
   {
     id: 'publishing',
     label: 'Publishing',
@@ -260,32 +261,36 @@ function SkillCard({ cat, locale, index }: CardProps) {
   )
 }
 
-// Levels here must stay derived from SKILL_CATEGORIES above (not
+// Levels here must stay derived from the active categories list (not
 // hand-typed separately) — this section used to keep its own copy of
 // each number and they drifted out of sync with the category cards
 // (e.g. Node.js showed 85 there but 70 here), which reads as sloppy
-// when both are visible on the same page.
-function levelOf(skillName: string): number {
-  for (const cat of SKILL_CATEGORIES) {
+// when both are visible on the same page. `categories` is passed in
+// rather than read from a module constant so Notion-sourced overrides
+// (fetched at runtime) flow through here too.
+function levelOf(categories: SkillCategory[], skillName: string): number {
+  for (const cat of categories) {
     const found = cat.skills.find((s) => s.name === skillName)
     if (found) return found.level
   }
   return 0
 }
-function avgLevel(...skillNames: string[]): number {
-  return Math.round(skillNames.reduce((sum, n) => sum + levelOf(n), 0) / skillNames.length)
+function avgLevel(categories: SkillCategory[], ...skillNames: string[]): number {
+  return Math.round(skillNames.reduce((sum, n) => sum + levelOf(categories, n), 0) / skillNames.length)
 }
 
-const skillBars = [
-  { name: 'React / Next.js', level: avgLevel('React', 'Next.js'), color: 'bg-blue-500' },
-  { name: 'TypeScript', level: levelOf('TypeScript'), color: 'bg-blue-400' },
-  { name: 'TailwindCSS', level: levelOf('Tailwind CSS'), color: 'bg-cyan-500' },
-  { name: 'Node.js', level: levelOf('Node.js'), color: 'bg-green-500' },
-  { name: 'PostgreSQL', level: levelOf('PostgreSQL'), color: 'bg-green-400' },
-  { name: 'Git / GitHub', level: avgLevel('Git', 'GitHub'), color: 'bg-purple-500' },
-]
+function buildSkillBars(categories: SkillCategory[]) {
+  return [
+    { name: 'React / Next.js', level: avgLevel(categories, 'React', 'Next.js'), color: 'bg-blue-500' },
+    { name: 'TypeScript', level: levelOf(categories, 'TypeScript'), color: 'bg-blue-400' },
+    { name: 'TailwindCSS', level: levelOf(categories, 'Tailwind CSS'), color: 'bg-cyan-500' },
+    { name: 'Node.js', level: levelOf(categories, 'Node.js'), color: 'bg-green-500' },
+    { name: 'PostgreSQL', level: levelOf(categories, 'PostgreSQL'), color: 'bg-green-400' },
+    { name: 'Git / GitHub', level: avgLevel(categories, 'Git', 'GitHub'), color: 'bg-purple-500' },
+  ]
+}
 
-function SkillBarItem({ skill, index }: { skill: typeof skillBars[number]; index: number }) {
+function SkillBarItem({ skill, index }: { skill: ReturnType<typeof buildSkillBars>[number]; index: number }) {
   const barRef = useRef<HTMLDivElement>(null)
   const [animated, setAnimated] = useState(false)
 
@@ -326,6 +331,31 @@ function SkillBarItem({ skill, index }: { skill: typeof skillBars[number]; index
 
 export default function Skills() {
   const { t, locale } = useLanguage()
+  const [remoteSkills, setRemoteSkills] = useState<SkillEntry[] | null>(null)
+
+  useEffect(() => {
+    fetch('/api/about-skills')
+      .then((r) => r.json())
+      .then((data: { skills?: SkillEntry[] }) => {
+        if (Array.isArray(data.skills) && data.skills.length > 0) setRemoteSkills(data.skills)
+      })
+      .catch(() => {})
+  }, [])
+
+  // Notion-sourced skill levels override the hardcoded defaults per
+  // category; a category with no matching rows keeps its fallback list
+  // instead of rendering empty.
+  const categories = useMemo(() => {
+    if (!remoteSkills) return DEFAULT_SKILL_CATEGORIES
+    return DEFAULT_SKILL_CATEGORIES.map((cat) => {
+      const overrides = remoteSkills.filter((s) => s.category === cat.id)
+      return overrides.length > 0
+        ? { ...cat, skills: overrides.map((s) => ({ name: s.name, level: s.level })) }
+        : cat
+    })
+  }, [remoteSkills])
+
+  const skillBars = useMemo(() => buildSkillBars(categories), [categories])
 
   return (
     <div className="relative py-32">
@@ -381,7 +411,7 @@ export default function Skills() {
 
         {/* Skill categories */}
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {SKILL_CATEGORIES.map((cat, i) => (
+          {categories.map((cat, i) => (
             <SkillCard key={cat.id} cat={cat} locale={locale} index={i} />
           ))}
         </div>

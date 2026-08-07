@@ -237,6 +237,202 @@ async function getItemsFromPage(pageId: string): Promise<RestaurantItem[]> {
   return items
 }
 
+export type AboutInterest = { ko: string; en: string }
+export type AboutTool = { name: string; icon: string }
+export type SkillEntry = { category: string; name: string; level: number }
+
+export type AboutSkillsData = {
+  interests: AboutInterest[]
+  tools: AboutTool[]
+  skills: SkillEntry[]
+}
+
+/**
+ * Reads the About/Skills database: one row per item, distinguished by a
+ * `Group` select (관심사/도구/스킬). 관심사 rows use Name (Korean) + NameEn
+ * (English); 도구 rows use Name + Icon (emoji); 스킬 rows use Name + Category
+ * (matches the `id` of a SKILL_CATEGORIES entry in Skills.tsx) + Level
+ * (0-100). Rows are sorted by `Order` within their group/category before
+ * being bucketed, so callers don't need to re-sort.
+ */
+export async function getAboutSkills(): Promise<AboutSkillsData> {
+  const databaseId = process.env.NOTION_ABOUT_SKILLS_DB_ID
+  if (!databaseId) return { interests: [], tools: [], skills: [] }
+
+  const res = await notion.databases.query({
+    database_id: databaseId,
+    page_size: 100,
+  })
+
+  const rows = res.results.map((page: any) => {
+    const props = page.properties
+    const entries = Object.entries(props) as [string, any][]
+
+    const titleProp = entries.find(([, p]) => p.type === 'title')?.[1]
+    const name = (titleProp?.title?.map((t: any) => t.plain_text).join('') ?? '').trim()
+
+    const nameEnProp = entries.find(([k, p]) => p.type === 'rich_text' && k === 'NameEn')?.[1]
+    const nameEn = getRichText(nameEnProp)
+
+    const iconProp = entries.find(([k, p]) => p.type === 'rich_text' && k === 'Icon')?.[1]
+    const icon = getRichText(iconProp)
+
+    const groupProp = entries.find(([k, p]) => p.type === 'select' && k === 'Group')?.[1]
+    const group = getSelect(groupProp)
+
+    const categoryProp = entries.find(([k, p]) => p.type === 'select' && k === 'Category')?.[1]
+    const category = getSelect(categoryProp)
+
+    const levelProp = entries.find(([k, p]) => p.type === 'number' && k === 'Level')?.[1]
+    const level = levelProp?.number ?? 0
+
+    const orderProp = entries.find(([k, p]) => p.type === 'number' && k === 'Order')?.[1]
+    const order = orderProp?.number ?? 0
+
+    return { name, nameEn, icon, group, category, level, order }
+  }).sort((a, b) => a.order - b.order)
+
+  const interests: AboutInterest[] = []
+  const tools: AboutTool[] = []
+  const skills: SkillEntry[] = []
+
+  for (const row of rows) {
+    if (!row.name) continue
+    if (row.group === '관심사') {
+      interests.push({ ko: row.name, en: row.nameEn || row.name })
+    } else if (row.group === '도구') {
+      tools.push({ name: row.name, icon: row.icon || '' })
+    } else if (row.group === '스킬' && row.category) {
+      skills.push({ category: row.category, name: row.name, level: row.level })
+    }
+  }
+
+  return { interests, tools, skills }
+}
+
+export type RecipeIngredientGroup = { title: string; items: string[] }
+
+export type NotionRecipe = {
+  slug: string
+  title: string
+  servings: string
+  measurementNote: string
+  ingredientGroups: RecipeIngredientGroup[]
+  steps: string[]
+  sourceUrl?: string
+}
+
+function parseIngredientGroups(raw: string): RecipeIngredientGroup[] {
+  if (!raw) return []
+  return raw
+    .split(';;')
+    .map((group) => {
+      const [title, itemsStr] = group.split('::')
+      return {
+        title: (title ?? '').trim(),
+        items: (itemsStr ?? '').split('|').map((s) => s.trim()).filter(Boolean),
+      }
+    })
+    .filter((g) => g.title && g.items.length > 0)
+}
+
+function parseSteps(raw: string): string[] {
+  if (!raw) return []
+  return raw.split(';;').map((s) => s.trim()).filter(Boolean)
+}
+
+/**
+ * Reads the Recipes database. Ingredient groups and steps are stored as
+ * flattened rich_text so a single Notion property can hold nested data:
+ * IngredientGroups = "title::item1|item2;;title2::item3|item4"
+ * Steps = "step 1;;step 2;;step 3"
+ */
+export async function getRecipes(): Promise<NotionRecipe[]> {
+  const databaseId = process.env.NOTION_RECIPES_DB_ID
+  if (!databaseId) return []
+
+  const res = await notion.databases.query({
+    database_id: databaseId,
+    page_size: 100,
+  })
+
+  return res.results
+    .map((page: any) => {
+      const props = page.properties
+      const entries = Object.entries(props) as [string, any][]
+
+      const titleProp = entries.find(([, p]) => p.type === 'title')?.[1]
+      const title = (titleProp?.title?.map((t: any) => t.plain_text).join('') ?? '').trim()
+
+      const getText = (key: string) => getRichText(entries.find(([k, p]) => p.type === 'rich_text' && k === key)?.[1])
+
+      const slug = getText('Slug') || title
+      const servings = getText('Servings')
+      const measurementNote = getText('MeasurementNote')
+      const ingredientGroups = parseIngredientGroups(getText('IngredientGroups'))
+      const steps = parseSteps(getText('Steps'))
+
+      const urlProp = entries.find(([, p]) => p.type === 'url')?.[1]
+      const sourceUrl = urlProp?.url || undefined
+
+      const orderProp = entries.find(([k, p]) => p.type === 'number' && k === 'Order')?.[1]
+      const order = orderProp?.number ?? 0
+
+      return { slug, title, servings, measurementNote, ingredientGroups, steps, sourceUrl, order }
+    })
+    .filter((r) => r.title && r.ingredientGroups.length > 0 && r.steps.length > 0)
+    .sort((a, b) => a.order - b.order)
+    .map(({ order, ...rest }) => rest)
+}
+
+export type Faq = {
+  id: string
+  question: string
+  answer: string
+  category: string
+}
+
+/**
+ * Reads the FAQ database. A `Visible` checkbox lets rows be drafted/hidden
+ * without deleting them; missing/unset checkboxes default to visible so a
+ * freshly-added row shows up immediately.
+ */
+export async function getFaqs(): Promise<Faq[]> {
+  const databaseId = process.env.NOTION_FAQ_DB_ID
+  if (!databaseId) return []
+
+  const res = await notion.databases.query({
+    database_id: databaseId,
+    page_size: 100,
+  })
+
+  return res.results
+    .map((page: any) => {
+      const props = page.properties
+      const entries = Object.entries(props) as [string, any][]
+
+      const titleProp = entries.find(([, p]) => p.type === 'title')?.[1]
+      const question = (titleProp?.title?.map((t: any) => t.plain_text).join('') ?? '').trim()
+
+      const answerProp = entries.find(([k, p]) => p.type === 'rich_text' && k === 'Answer')?.[1]
+      const answer = getRichText(answerProp)
+
+      const categoryProp = entries.find(([k, p]) => p.type === 'select' && k === 'Category')?.[1]
+      const category = getSelect(categoryProp)
+
+      const visibleProp = entries.find(([k, p]) => p.type === 'checkbox' && k === 'Visible')?.[1]
+      const visible = visibleProp ? visibleProp.checkbox !== false : true
+
+      const orderProp = entries.find(([k, p]) => p.type === 'number' && k === 'Order')?.[1]
+      const order = orderProp?.number ?? 0
+
+      return { id: page.id, question, answer, category, visible, order }
+    })
+    .filter((f) => f.question && f.answer && f.visible)
+    .sort((a, b) => a.order - b.order)
+    .map(({ order, visible, ...rest }) => rest)
+}
+
 // ── helpers ──────────────────────────────────────────────
 function getRichText(prop: any): string {
   if (!prop) return ''

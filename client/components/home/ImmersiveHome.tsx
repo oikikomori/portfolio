@@ -35,6 +35,7 @@ const MORE_ITEMS: Array<{ label: string; labelEn: string; href: string }> = [
   { label: 'RPG', labelEn: 'RPG', href: '/rpg' },
   { label: '레시피', labelEn: 'Recipes', href: '/recipes' },
   { label: '북마크', labelEn: 'Bookmarks', href: '/bookmarks' },
+  { label: 'FAQ', labelEn: 'FAQ', href: '/faq' },
 ]
 
 /**

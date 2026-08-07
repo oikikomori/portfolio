@@ -1,14 +1,46 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useLanguage } from '@/lib/LanguageContext'
 import { interpolate } from '@/lib/i18n'
 import { portfolioViewport, maskReveal, lineReveal, staggerContainer, staggerItem } from '@/lib/portfolioMotion'
 import { SITE_EMAIL } from '@/lib/site'
+import type { AboutInterest, AboutTool } from '@/lib/notion'
+
+const FALLBACK_INTERESTS: AboutInterest[] = [
+  { ko: 'Three.js WebGL', en: 'Three.js WebGL' },
+  { ko: 'AI 통합', en: 'AI integration' },
+  { ko: '게임 개발', en: 'Game development' },
+  { ko: '성능 최적화', en: 'Performance optimization' },
+  { ko: '풀스택', en: 'Full-stack' },
+]
+
+const FALLBACK_TOOLS: AboutTool[] = [
+  { name: 'VS Code', icon: '⌨️' },
+  { name: 'Cursor', icon: '✦' },
+  { name: 'Figma', icon: '◈' },
+  { name: 'Vercel', icon: '▲' },
+  { name: 'Neon DB', icon: '⬡' },
+  { name: 'GitHub', icon: '◯' },
+]
 
 export default function About() {
   const { t, locale } = useLanguage()
   const years = new Date().getFullYear() - 2019
+
+  const [interests, setInterests] = useState<AboutInterest[]>(FALLBACK_INTERESTS)
+  const [tools, setTools] = useState<AboutTool[]>(FALLBACK_TOOLS)
+
+  useEffect(() => {
+    fetch('/api/about-skills')
+      .then((r) => r.json())
+      .then((data: { interests?: AboutInterest[]; tools?: AboutTool[] }) => {
+        if (Array.isArray(data.interests) && data.interests.length > 0) setInterests(data.interests)
+        if (Array.isArray(data.tools) && data.tools.length > 0) setTools(data.tools)
+      })
+      .catch(() => {})
+  }, [])
 
   const stats = [
     { value: `${years}+`, label: t.about.statYearsSuffix },
@@ -97,15 +129,12 @@ export default function About() {
                 </span>
               </div>
               <div className="flex flex-wrap gap-2">
-                {(locale === 'en'
-                  ? ['Three.js WebGL', 'AI integration', 'Game development', 'Performance optimization', 'Full-stack']
-                  : ['Three.js WebGL', 'AI 통합', '게임 개발', '성능 최적화', '풀스택']
-                ).map((tag) => (
+                {interests.map((tag) => (
                   <span
-                    key={tag}
+                    key={tag.ko}
                     className="px-3 py-1 rounded-full text-xs font-mono bg-neutral-800 text-neutral-400 border border-neutral-700 hover:bg-indigo-900/40 hover:border-indigo-600 hover:text-indigo-300 transition-colors cursor-default"
                   >
-                    {tag}
+                    {locale === 'en' ? tag.en : tag.ko}
                   </span>
                 ))}
               </div>
@@ -126,14 +155,7 @@ export default function About() {
                 </span>
               </div>
               <div className="flex flex-wrap gap-2">
-                {[
-                  { name: 'VS Code', icon: '⌨️' },
-                  { name: 'Cursor', icon: '✦' },
-                  { name: 'Figma', icon: '◈' },
-                  { name: 'Vercel', icon: '▲' },
-                  { name: 'Neon DB', icon: '⬡' },
-                  { name: 'GitHub', icon: '◯' },
-                ].map((tool) => (
+                {tools.map((tool) => (
                   <span
                     key={tool.name}
                     className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-mono bg-neutral-900 text-neutral-400 border border-neutral-800 hover:border-neutral-600 hover:text-neutral-200 transition-colors cursor-default"

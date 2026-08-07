@@ -38,7 +38,7 @@ const BUILDINGS: Bld[] = [
     tx: 3, ty: 4, tw: 10, th: 8,
     wall: '#8b6914', roof: '#c0522d',
     lines: [
-      '[ okuma / Seungil Oh ]',
+      '[ okuma ]',
       '',
       '프론트엔드 개발자 · 개발경력 7년+',
       '',
@@ -55,7 +55,7 @@ const BUILDINGS: Bld[] = [
       '반응형 화면을 정확하게 구현합니다.',
     ],
     linesEn: [
-      '[ Seungil Oh ]',
+      '[ okuma ]',
       '',
       'Frontend Developer · 7+ years of experience',
       '',
@@ -233,7 +233,6 @@ const BUILDINGS: Bld[] = [
       '[ 연락처 ]',
       '',
       `📧  ${SITE_EMAIL}`,
-      '📱  050-6679-1577',
       `🐙  ${GITHUB_HANDLE}`,
       '🌐  kuuuma.com',
       '',
@@ -243,7 +242,6 @@ const BUILDINGS: Bld[] = [
       '[ Contact ]',
       '',
       `📧  ${SITE_EMAIL}`,
-      '📱  050-6679-1577',
       `🐙  ${GITHUB_HANDLE}`,
       '🌐  kuuuma.com',
       '',
