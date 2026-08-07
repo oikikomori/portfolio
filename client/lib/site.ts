@@ -6,14 +6,13 @@ export function getSiteUrl(): string {
 }
 
 /**
- * Server/runtime gate for /portfolio. Public by default; opt out with PORTFOLIO_DISABLED=true
- * or legacy PORTFOLIO_ENABLED=false / NEXT_PUBLIC_PORTFOLIO_DISABLED=true.
+ * Server/runtime gate for /portfolio. Temporarily blocked for everyone at the
+ * site owner's request (personal-info exposure concern) — set
+ * PORTFOLIO_DISABLED=false to re-open it once resolved.
  */
 export function isPortfolioPublic(): boolean {
-  if (process.env.PORTFOLIO_DISABLED === 'true') return false
-  if (process.env.NEXT_PUBLIC_PORTFOLIO_DISABLED === 'true') return false
-  if (process.env.PORTFOLIO_ENABLED === 'false') return false
-  return true
+  if (process.env.PORTFOLIO_DISABLED === 'false') return true
+  return false
 }
 
 /**
