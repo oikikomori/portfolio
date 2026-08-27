@@ -61,8 +61,14 @@ const nextConfig = {
   },
 
   // Compiler options
+  // NOTE: keep `error`/`warn` even in production — proxy.ts (bot/rate-limit
+  // blocking) and the cron routes rely on console.error/warn output being
+  // visible in Vercel's runtime logs for debugging. Only noisy console.log
+  // calls are stripped from the production build.
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
+    removeConsole: process.env.NODE_ENV === 'production'
+      ? { exclude: ['error', 'warn'] }
+      : false,
   },
 
   // Experimental: optimize package imports for large libraries
