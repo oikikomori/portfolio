@@ -8,7 +8,12 @@ import {
   isWhitelistedCrawler,
 } from '@/lib/bot-detection'
 import { getClientCountry, getClientIp } from '@/lib/request-geo'
-import { banIpTemporarily, consumeRateLimit, isIpTemporarilyBanned } from '@/lib/rate-limit'
+import {
+  banIpTemporarily,
+  consumeRateLimit,
+  isIpTemporarilyBanned,
+  isRateLimitExemptPath,
+} from '@/lib/rate-limit'
 
 // ---------------------------------------------------------------------------
 // Bot / scraper / rate-limit policy — runs before everything else, site-wide.
@@ -96,12 +101,15 @@ function applyBotAndRateLimitPolicy(request: NextRequest): NextResponse | null {
   const windowMs = isStrict ? CN_RATE_WINDOW_MS : GENERAL_RATE_WINDOW_MS
   const rateKey = `${isStrict ? 'cn' : 'gen'}:${ip}`
 
-  const result = consumeRateLimit(rateKey, limit, windowMs)
-  if (!result.allowed) {
-    logBlock('rate-limit', { ip, pathname, country, limit, windowMs })
-    return textResponse('Too Many Requests', 429, {
-      'retry-after': String(result.retryAfterSeconds),
-    })
+  // Layout/RPG polling — see isRateLimitExemptPath() for rationale.
+  if (!isRateLimitExemptPath(pathname)) {
+    const result = consumeRateLimit(rateKey, limit, windowMs)
+    if (!result.allowed) {
+      logBlock('rate-limit', { ip, pathname, country, limit, windowMs })
+      return textResponse('Too Many Requests', 429, {
+        'retry-after': String(result.retryAfterSeconds),
+      })
+    }
   }
 
   return null
