@@ -116,3 +116,15 @@ export function isIpTemporarilyBanned(ip: string): boolean {
   }
   return true
 }
+
+/**
+ * High-frequency, site-owned polling endpoints (layout LiveCursors, RPG
+ * presence). They legitimately send ~1 req/s per tab and must not consume the
+ * per-IP proxy budget meant for scrapers — otherwise CN visitors (5/10s) and
+ * /rpg (LiveCursors + presence ≈ 20/10s) hit 429 while browsing normally.
+ */
+const RATE_LIMIT_EXEMPT_PATHS = new Set(['/api/cursors', '/api/rpg-presence'])
+
+export function isRateLimitExemptPath(pathname: string): boolean {
+  return RATE_LIMIT_EXEMPT_PATHS.has(pathname)
+}
